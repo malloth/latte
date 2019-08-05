@@ -22,6 +22,13 @@ internal class ViewMatcher {
         if (roots.isEmpty()) {
             Log.w(TAG, "No roots were found")
             return emptyList()
+        } else {
+            roots.forEach {
+                Log.d(
+                    TAG,
+                    "Found root: root = ${it.view::class.java.simpleName}, isFocused = ${it.view.windowId.isFocused}"
+                )
+            }
         }
 
         val viewMatcher: (View) -> Boolean = {
