@@ -29,10 +29,11 @@ internal class ViewMatcher {
         }
         val views = mutableListOf<View>()
 
-        roots.forEach {
-            Log.d(TAG, "Matching in root: ${it.view::class.java.simpleName}, type = ${it.layoutParams.type}")
-            it.view.walk(views, viewMatcher)
-        }
+        roots.filter { it.view.windowId.isFocused }
+            .forEach {
+                Log.d(TAG, "Matching: root = ${it.view::class.java.simpleName}")
+                it.view.walk(views, viewMatcher)
+            }
 
         return views.filterIsInstance(T::class.java).also {
             Log.d(TAG, "Found ${it.size} matching view(s)")
