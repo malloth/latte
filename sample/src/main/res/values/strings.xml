@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Latte</string>
+    <string name="button">Button 1</string>
+    <string name="label">Test 1</string>
+    <string-array name="items">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+        <item>Item 6</item>
+        <item>Item 7</item>
+    </string-array>
+</resources>

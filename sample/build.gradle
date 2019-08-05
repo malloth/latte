@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion highSdkVersion
+
+    defaultConfig {
+        applicationId "com.test.lattesample"
+        minSdkVersion lowSdkVersion
+        targetSdkVersion highSdkVersion
+        versionCode 1
+        versionName libVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets.all { sourceSet ->
+        sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
+    }
+
+    lintOptions {
+        abortOnError true
+        warningsAsErrors true
+        ignore 'AllowBackup', 'GoogleAppIndexingWarning'
+    }
+
+    compileOptions {
+        kotlinOptions {
+            allWarningsAsErrors = true
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+
+    androidTestImplementation project(':library')
+    androidTestImplementation "androidx.test:rules:$testRulesVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+}
