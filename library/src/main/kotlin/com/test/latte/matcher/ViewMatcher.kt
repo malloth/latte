@@ -32,7 +32,9 @@ internal class ViewMatcher {
         roots.filter { it.view.windowId.isFocused }
             .forEach {
                 Log.d(TAG, "Matching: root = ${it.view::class.java.simpleName}")
-                it.view.walk(views, viewMatcher)
+
+                val base = it.view.findViewById<View>(android.R.id.content) ?: it.view
+                base.walk(views, viewMatcher)
             }
 
         return views.filterIsInstance(T::class.java).also {
