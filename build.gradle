@@ -2,6 +2,7 @@ buildscript {
     ext {
         // Library
         libVersion = '0.1.0'
+        groupId = 'com.test.latte'
 
         // Environment
         lowSdkVersion = 21

@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+        artifactId = 'core'
+    }
+
+    repositories {
+        mavenLocal()
+        google()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokkaVersion"
+        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: "$rootDir/gradle/dokka.gradle"
+apply from: "$rootDir/gradle/detekt.gradle"
+
+android {
+    compileSdkVersion highSdkVersion
+
+    defaultConfig {
+        minSdkVersion lowSdkVersion
+        targetSdkVersion highSdkVersion
+        versionCode 1
+        versionName libVersion
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            useProguard true
+            consumerProguardFiles 'consumer-proguard-rules.pro'
+        }
+    }
+
+    sourceSets.all { sourceSet ->
+        sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
+    }
+
+    lintOptions {
+        abortOnError true
+        warningsAsErrors true
+    }
+
+    compileOptions {
+        kotlinOptions {
+            allWarningsAsErrors = true
+            freeCompilerArgs += ['-module-name', "$groupId.$artifactId"]
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "androidx.test:runner:$testRunnerVersion"
+}
