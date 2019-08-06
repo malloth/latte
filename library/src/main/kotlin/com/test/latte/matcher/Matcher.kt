@@ -8,10 +8,11 @@ import com.test.latte.matching.SingleMatching
 
 inline fun <reified T : View> match(
     matchType: MatchType = SINGLE,
+    matchFlags: Int = MATCH_DEFAULT,
     crossinline matcher: T.() -> Boolean
 ): Matching<T> {
     val viewMatcher = ViewMatcher()
-    val matches = viewMatcher.matchViews(matcher)
+    val matches = viewMatcher.matchViews(matchFlags, matcher)
 
     if (matches.isEmpty()) {
         throw AssertionError("No views found matching given criteria.")
@@ -29,12 +30,18 @@ inline fun <reified T : View> match(
 }
 
 inline fun <reified T : View> noMatch(
+    matchFlags: Int = MATCH_DEFAULT,
     crossinline matcher: T.() -> Boolean
 ) {
     val viewMatcher = ViewMatcher()
-    val matches = viewMatcher.matchViews(matcher)
+    val matches = viewMatcher.matchViews(matchFlags, matcher)
 
     if (matches.isNotEmpty()) {
         throw AssertionError("Found ${matches.size} views matching given criteria.")
     }
 }
+
+const val MATCH_FOCUSED = 1 shl 0
+const val MATCH_CONTENT = 1 shl 1
+
+const val MATCH_DEFAULT = MATCH_CONTENT or MATCH_FOCUSED
