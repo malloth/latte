@@ -7,23 +7,25 @@ import com.test.latte.matcher.ViewMatcher
 import com.test.latte.util.debugId
 
 @PublishedApi
-internal fun View.walk(
-    matches: MutableList<View>,
+internal fun View.walk(matcher: (View) -> Boolean): List<View> =
+    performViewTreeWalk(this, matcher)
+
+private fun performViewTreeWalk(
+    view: View,
     matcher: (View) -> Boolean,
+    matches: MutableList<View> = mutableListOf(),
     currentDepth: Int = 0
 ): List<View> {
-    val isMatch = matcher(this)
+    val isMatch = matcher(view)
 
     if (isMatch) {
-        matches += this
+        matches += view
     }
-    printViewHierarchy(this, currentDepth, isMatch)
+    printViewHierarchy(view, currentDepth, isMatch)
 
-    if (this is ViewGroup) {
-        val children = Array(childCount, ::getChildAt)
-
-        children.forEach {
-            it.walk(matches, matcher, currentDepth + 1)
+    if (view is ViewGroup) {
+        view.children.forEach {
+            performViewTreeWalk(it, matcher, matches, currentDepth + 1)
         }
     }
     return matches
@@ -36,3 +38,6 @@ private fun printViewHierarchy(view: View, currentDepth: Int, isMatch: Boolean) 
                 if (isMatch) " *** MATCH ***" else ""
     )
 }
+
+private val ViewGroup.children: Array<View>
+    get() = Array(childCount, ::getChildAt)

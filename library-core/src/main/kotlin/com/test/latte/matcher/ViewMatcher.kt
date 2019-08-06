@@ -34,18 +34,19 @@ internal class ViewMatcher {
         val viewMatcher: (View) -> Boolean = {
             it is T && matcher(it)
         }
-        val views = mutableListOf<View>()
+        val matchActiveRoots = matchFlags.hasFlags(MATCH_ACTIVE_ROOTS)
+        val matchContent = matchFlags.hasFlags(MATCH_CONTENT)
 
-        roots.filterIf(matchFlags.hasFlags(MATCH_FOCUSED)) { it.windowId.isFocused }
-            .mapIf(matchFlags.hasFlags(MATCH_CONTENT)) { it.findViewById(android.R.id.content) ?: it }
-            .forEach {
-                Log.d(TAG, "Matching: root = ${it::class.java.simpleName}")
-                it.walk(views, viewMatcher)
+        return roots.filterIf(matchActiveRoots) { it.windowId.isFocused }
+            .mapIf(matchContent) { it.findViewById(android.R.id.content) ?: it }
+            .flatMap {
+                Log.d(TAG, "Matching: parent = ${it::class.java.simpleName}")
+                it.walk(viewMatcher)
             }
-
-        return views.filterIsInstance<T>().also {
-            Log.d(TAG, "Found ${it.size} matching view(s)")
-        }
+            .filterIsInstance<T>()
+            .also {
+                Log.d(TAG, "Found ${it.size} matching view(s)")
+            }
     }
 
     companion object {

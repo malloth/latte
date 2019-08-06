@@ -41,7 +41,7 @@ inline fun <reified T : View> noMatch(
     }
 }
 
-const val MATCH_FOCUSED = 1 shl 0
+const val MATCH_ACTIVE_ROOTS = 1 shl 0
 const val MATCH_CONTENT = 1 shl 1
 
-const val MATCH_DEFAULT = MATCH_CONTENT or MATCH_FOCUSED
+const val MATCH_DEFAULT = MATCH_CONTENT or MATCH_ACTIVE_ROOTS
