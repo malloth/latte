@@ -5,6 +5,7 @@ import android.view.View.INVISIBLE
 import android.widget.*
 import androidx.test.rule.ActivityTestRule
 import com.test.latte.interactor.inputText
+import com.test.latte.interactor.performItemClick
 import com.test.latte.matcher.match
 import com.test.latte.matcher.noMatch
 import com.test.latte.verifier.hasText
@@ -56,10 +57,7 @@ class Test {
             hasText("Item 5")
         }.interact {
             val parentView = parent as AdapterView<*>
-            val pos = parentView.getPositionForView(this)
-            val id = parentView.getItemIdAtPosition(pos)
-
-            parentView.performItemClick(this, pos, id)
+            parentView.performItemClick(this)
         }
 
         match<Spinner> {
