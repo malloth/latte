@@ -4,7 +4,7 @@ import android.os.Looper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 internal fun <R : Any> runInUiThread(block: () -> R): R {
-    return if (Looper.myLooper() == Looper.getMainLooper()) {
+    return if (isInUIThread()) {
         block()
     } else {
         lateinit var result: R
@@ -15,3 +15,6 @@ internal fun <R : Any> runInUiThread(block: () -> R): R {
         result
     }
 }
+
+private fun isInUIThread(): Boolean =
+    Looper.myLooper() == Looper.getMainLooper()
