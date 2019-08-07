@@ -22,6 +22,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply from: "$rootDir/gradle/dokka.gradle"
 apply from: "$rootDir/gradle/detekt.gradle"
+apply from: "$rootDir/gradle/maven.gradle"
+apply from: "$rootDir/gradle/bintray.gradle"
 
 android {
     compileSdkVersion highSdkVersion

@@ -2,6 +2,8 @@ buildscript {
     ext {
         // Library
         libVersion = '0.1.0'
+        repositoryId = 'latte'
+        repositoryVcs = 'https://github.com/malloth/latte.git'
         groupId = 'com.test.latte'
 
         // Environment
@@ -15,8 +17,8 @@ buildscript {
         androidxAppCompatVersion = '1.0.2'
 
         // Util
+        bintrayVersion = '1.8.4'
         dokkaVersion = '0.9.18'
-        androidMavenGradleVersion = '2.1'
         detektVersion = '1.0.0.RC8'
 
         // Test
@@ -35,6 +37,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$toolsVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintrayVersion"
     }
 }
 
