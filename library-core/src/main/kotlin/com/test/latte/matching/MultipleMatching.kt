@@ -1,7 +1,7 @@
 package com.test.latte.matching
 
 import android.view.View
-import com.test.latte.util.runInUiThread
+import com.test.latte.thread.runInUiThread
 
 @PublishedApi
 internal class MultipleMatching<T : View>(private val views: List<T>) : Matching<T> {

@@ -1,7 +1,7 @@
 package com.test.latte.matcher
 
 import android.view.View
-import com.test.latte.exception.MatchException
+import com.test.latte.matcher.exception.MatchException
 import com.test.latte.matcher.MatchType.*
 import com.test.latte.matching.Matching
 import com.test.latte.matching.MultipleMatching
@@ -10,7 +10,7 @@ import com.test.latte.matching.SingleMatching
 inline fun <reified T : View> match(
     matchType: MatchType = SINGLE,
     matchFlags: Int = MATCH_DEFAULT,
-    crossinline matcher: T.() -> Boolean
+    noinline matcher: T.() -> Boolean
 ): Matching<T> {
     val matches = matchViews(matchFlags, matcher)
 
@@ -31,7 +31,7 @@ inline fun <reified T : View> match(
 
 inline fun <reified T : View> noMatch(
     matchFlags: Int = MATCH_DEFAULT,
-    crossinline matcher: T.() -> Boolean
+    noinline matcher: T.() -> Boolean
 ) {
     val matches = matchViews(matchFlags, matcher)
 

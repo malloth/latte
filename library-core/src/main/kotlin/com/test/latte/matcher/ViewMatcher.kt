@@ -1,10 +1,12 @@
 package com.test.latte.matcher
 
-import android.util.Log
 import android.view.View
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import com.test.latte.hierarchy.DepthFirstViewTreeWalk
 import com.test.latte.hierarchy.RootProvider
-import com.test.latte.hierarchy.walk
+import com.test.latte.hierarchy.ViewTreeWalk
+import com.test.latte.hierarchy.WindowRootProvider
+import com.test.latte.thread.MainThreadObserver
+import com.test.latte.thread.ThreadObserver
 import com.test.latte.util.filterIf
 import com.test.latte.util.hasFlags
 import com.test.latte.util.mapIf
@@ -12,40 +14,26 @@ import com.test.latte.util.mapIf
 @PublishedApi
 internal inline fun <reified T : View> matchViews(
     matchFlags: Int,
-    crossinline matcher: T.() -> Boolean
+    noinline matcher: T.() -> Boolean,
+    viewMatcherFactory: (T.() -> Boolean) -> ((View) -> Boolean) = ViewMatcherFactory::create,
+    viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk,
+    threadObserver: ThreadObserver = MainThreadObserver,
+    rootProvider: RootProvider = WindowRootProvider
 ): List<T> {
-    Log.d(TAG, "Matching started")
+    threadObserver.waitUntilIdle()
 
-    getInstrumentation().waitForIdleSync()
-
-    val roots = RootProvider.roots
+    val roots = rootProvider.roots
 
     if (roots.isEmpty()) {
-        Log.w(TAG, "No roots were found")
         return emptyList()
     }
 
-    roots.forEach {
-        Log.d(TAG, "Found root: root = ${it::class.java.simpleName}, isFocused = ${it.windowId.isFocused}")
-    }
-
-    val viewMatcher: (View) -> Boolean = {
-        it is T && matcher(it)
-    }
     val matchActiveRoots = matchFlags.hasFlags(MATCH_ACTIVE_ROOTS)
     val matchContent = matchFlags.hasFlags(MATCH_CONTENT)
+    val viewMatcher = viewMatcherFactory(matcher)
 
-    return roots.filterIf(matchActiveRoots) { it.windowId.isFocused }
-        .mapIf(matchContent) { it.findViewById(android.R.id.content) ?: it }
-        .flatMap {
-            Log.d(TAG, "Matching: parent = ${it::class.java.simpleName}")
-            it.walk(viewMatcher)
-        }
+    return roots.filterIf(matchActiveRoots) { it.isActive }
+        .mapIf(matchContent) { it.content ?: it }
+        .flatMap { viewTreeWalk.walk(it.view, viewMatcher) }
         .filterIsInstance<T>()
-        .also {
-            Log.d(TAG, "Found ${it.size} matching view(s)")
-        }
 }
-
-@PublishedApi
-internal const val TAG = "ViewMatcher"

@@ -1,4 +1,4 @@
-package com.test.latte.util
+package com.test.latte.thread
 
 import android.os.Looper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
