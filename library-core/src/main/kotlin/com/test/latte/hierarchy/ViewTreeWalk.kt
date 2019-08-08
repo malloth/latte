@@ -3,7 +3,6 @@ package com.test.latte.hierarchy
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import com.test.latte.matcher.ViewMatcher
 import com.test.latte.util.debugId
 
 @PublishedApi
@@ -33,7 +32,7 @@ private fun performViewTreeWalk(
 
 private fun printViewHierarchy(view: View, currentDepth: Int, isMatch: Boolean) {
     Log.d(
-        ViewMatcher.TAG, "├─".repeat(currentDepth) +
+        TAG, "├─".repeat(currentDepth) +
                 "${view::class.java.simpleName} { ${view.debugId} }" +
                 if (isMatch) " *** MATCH ***" else ""
     )
@@ -41,3 +40,5 @@ private fun printViewHierarchy(view: View, currentDepth: Int, isMatch: Boolean) 
 
 private val ViewGroup.children: Array<View>
     get() = Array(childCount, ::getChildAt)
+
+private const val TAG = "ViewTreeWalk"

@@ -12,8 +12,7 @@ inline fun <reified T : View> match(
     matchFlags: Int = MATCH_DEFAULT,
     crossinline matcher: T.() -> Boolean
 ): Matching<T> {
-    val viewMatcher = ViewMatcher()
-    val matches = viewMatcher.matchViews(matchFlags, matcher)
+    val matches = matchViews(matchFlags, matcher)
 
     if (matches.isEmpty()) {
         throw MatchException("No views found matching given criteria")
@@ -34,8 +33,7 @@ inline fun <reified T : View> noMatch(
     matchFlags: Int = MATCH_DEFAULT,
     crossinline matcher: T.() -> Boolean
 ) {
-    val viewMatcher = ViewMatcher()
-    val matches = viewMatcher.matchViews(matchFlags, matcher)
+    val matches = matchViews(matchFlags, matcher)
 
     if (matches.isNotEmpty()) {
         throw MatchException("Found ${matches.size} views matching given criteria")
