@@ -1,6 +1,7 @@
 package com.test.latte.matcher
 
 import android.view.View
+import com.test.latte.exception.MatchException
 import com.test.latte.matcher.MatchType.*
 import com.test.latte.matching.Matching
 import com.test.latte.matching.MultipleMatching
@@ -15,14 +16,14 @@ inline fun <reified T : View> match(
     val matches = viewMatcher.matchViews(matchFlags, matcher)
 
     if (matches.isEmpty()) {
-        throw AssertionError("No views found matching given criteria.")
+        throw MatchException("No views found matching given criteria")
     }
 
     return when (matchType) {
         SINGLE -> if (matches.size == 1) {
             SingleMatching(matches.first())
         } else {
-            throw AssertionError("Found ${matches.size} views matching given criteria.")
+            throw MatchException("Found ${matches.size} views matching given criteria")
         }
         FIRST -> SingleMatching(matches.first())
         ALL -> MultipleMatching(matches)
@@ -37,7 +38,7 @@ inline fun <reified T : View> noMatch(
     val matches = viewMatcher.matchViews(matchFlags, matcher)
 
     if (matches.isNotEmpty()) {
-        throw AssertionError("Found ${matches.size} views matching given criteria.")
+        throw MatchException("Found ${matches.size} views matching given criteria")
     }
 }
 
