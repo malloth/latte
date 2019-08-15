@@ -5,6 +5,6 @@ import android.view.View
 @PublishedApi
 internal object ViewMatcherFactory {
 
-    inline fun <reified T : View> create(noinline predicate: T.() -> Boolean): (View) -> Boolean =
-        { it is T && predicate(it) }
+    inline fun <reified T : View> create(noinline matchPredicate: MatchPredicate<T>): ViewMatcher =
+        { it is T && matchPredicate(it) }
 }

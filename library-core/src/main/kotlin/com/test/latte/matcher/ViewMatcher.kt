@@ -11,11 +11,13 @@ import com.test.latte.util.filterIf
 import com.test.latte.util.hasFlags
 import com.test.latte.util.mapIf
 
+internal typealias ViewMatcher = (View) -> Boolean
+
 @PublishedApi
 internal inline fun <reified T : View> matchViews(
     matchFlags: Int,
-    noinline matcher: T.() -> Boolean,
-    viewMatcherFactory: (T.() -> Boolean) -> ((View) -> Boolean) = ViewMatcherFactory::create,
+    noinline matchPredicate: MatchPredicate<T>,
+    viewMatcherFactory: (MatchPredicate<T>) -> ViewMatcher = ViewMatcherFactory::create,
     viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk,
     threadObserver: ThreadObserver = MainThreadObserver,
     rootProvider: RootProvider = WindowRootProvider
@@ -30,7 +32,7 @@ internal inline fun <reified T : View> matchViews(
 
     val matchActiveRoots = matchFlags.hasFlags(MATCH_ACTIVE_ROOTS)
     val matchContent = matchFlags.hasFlags(MATCH_CONTENT)
-    val viewMatcher = viewMatcherFactory(matcher)
+    val viewMatcher = viewMatcherFactory(matchPredicate)
 
     return roots.filterIf(matchActiveRoots) { it.isActive }
         .mapIf(matchContent) { it.content ?: it }

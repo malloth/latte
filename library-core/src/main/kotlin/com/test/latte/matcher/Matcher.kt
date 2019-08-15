@@ -8,7 +8,12 @@ import com.test.latte.matching.MultipleMatching
 import com.test.latte.matching.SingleMatching
 
 /**
- * Matches view of a specified type using given [matcher].
+ * Type alias for generic matcher predicate.
+ */
+typealias MatchPredicate<T> = T.() -> Boolean
+
+/**
+ * Matches view of a specified type using given [matchPredicate].
  *
  * By default match lookup is performed only in active window content.
  * To change this behaviour one of [matchFlags] can be passed.
@@ -18,7 +23,7 @@ import com.test.latte.matching.SingleMatching
  *
  * @param matchType view matching strategy
  * @param matchFlags flags for matching control
- * @param matcher predicate describing which view should be considered a match
+ * @param matchPredicate predicate describing which view should be considered a match
  * @return instance of [Matching] containing matched view(s)
  * @throws MatchException if no matching view was found, or
  * multiple matches were found and [matchType] was set to [MatchType.SINGLE]
@@ -26,9 +31,9 @@ import com.test.latte.matching.SingleMatching
 inline fun <reified T : View> match(
     matchType: MatchType = SINGLE,
     matchFlags: Int = MATCH_DEFAULT,
-    noinline matcher: T.() -> Boolean
+    noinline matchPredicate: MatchPredicate<T>
 ): Matching<T> {
-    val matches = matchViews(matchFlags, matcher)
+    val matches = matchViews(matchFlags, matchPredicate)
 
     if (matches.isEmpty()) {
         throw MatchException("No views found matching given criteria")
@@ -47,20 +52,20 @@ inline fun <reified T : View> match(
 
 /**
  * Ensures that no matching view of a specified type exists in the
- * view hierarchy using given [matcher].
+ * view hierarchy using given [matchPredicate].
  *
  * By default match lookup is performed only in active window content.
  * To change this behaviour one of [matchFlags] can be passed.
  *
  * @param matchFlags flags for matching control
- * @param matcher predicate describing which view should be considered a match
+ * @param matchPredicate predicate describing which view should be considered a match
  * @throws MatchException if any matching view was found
  */
 inline fun <reified T : View> noMatch(
     matchFlags: Int = MATCH_DEFAULT,
-    noinline matcher: T.() -> Boolean
+    noinline matchPredicate: MatchPredicate<T>
 ) {
-    val matches = matchViews(matchFlags, matcher)
+    val matches = matchViews(matchFlags, matchPredicate)
 
     if (matches.isNotEmpty()) {
         throw MatchException("Found ${matches.size} views matching given criteria")
