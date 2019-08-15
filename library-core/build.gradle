@@ -67,4 +67,5 @@ dependencies {
     implementation "androidx.test:runner:$testRunnerVersion"
 
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
 }

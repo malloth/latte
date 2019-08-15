@@ -3,7 +3,7 @@ package com.test.latte.util
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class Collections {
+class CollectionsTest {
 
     @Test
     fun `filters items when condition is met`() {

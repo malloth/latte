@@ -4,7 +4,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class Flags {
+class FlagsTest {
 
     @Test
     fun `returns true when contains a given flag`() {
