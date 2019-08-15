@@ -5,12 +5,14 @@ Android utilizing Kotlin DSL.
 
 #### Features
 
-- Small footprint
-- Uses Kotlin DSL
-- Uses standard Android API for matching, interactions and verifications
-- Matching, interactions and verifications are performed on a given type of View
-- Gives a fine grained control over matching process
-- Provides a separate artifact with helper interactions and verifications
+- Has a very small footprint
+- Is a standalone framework
+- Utilizes Kotlin DSL
+- Uses Android API for matching, interactions and verifications
+- Narrows the scope of matches, interactions and verifications to a given type of View
+- Enables easy debugging of View's current state
+- Gives a fine grained control over view matching process
+- Provides a separate library artifact with helper interactions and verifications
 
 ## Requirements
 
@@ -98,7 +100,7 @@ match<View> {
 }
 ```
 
-Sample use case matching `EditText` with a id `R.id.edit1`:
+Sample use case matching `EditText` with an id `R.id.edit1`:
 
 ```kotlin
 match<EditText> {
@@ -111,4 +113,15 @@ match<EditText> {
 }.verify("EditText does not have text '123'") {
     hasText("123")
 }
+```
+
+## Sample
+
+Inside this repository there's a sample app module with a couple of UI tests, 
+showing how to write those using this framework.
+
+To run all the tests:
+
+```shell
+./gradlew :sample:connectedAndroidTest
 ```
