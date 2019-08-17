@@ -71,11 +71,11 @@ inline fun <reified T : View> noMatch(
 /**
  * Flag for matching views only inside active windows (activities, dialogs, popups).
  */
-const val MATCH_ACTIVE_ROOTS = 1 shl 0
+const val MATCH_ACTIVE_ROOTS = 0b00000001
 /**
  * Flag for matching views inside content view.
  */
-const val MATCH_CONTENT = 1 shl 1
+const val MATCH_CONTENT = 0b00000010
 /**
  * Flag specifying default matching behaviour.
  */
