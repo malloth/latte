@@ -4,10 +4,13 @@ import android.view.View
 import com.test.latte.thread.runInUiThread
 
 @PublishedApi
-internal class MultipleMatching<T : View>(private val views: List<T>) : Matching<T> {
+internal class MultipleMatching<T : View>(
+    private val views: List<T>,
+    private val threadRunner: (() -> Unit) -> Unit = ::runInUiThread
+) : Matching<T> {
 
     override fun interact(interactor: T.() -> Unit): Matching<T> {
-        runInUiThread {
+        threadRunner {
             views.forEach(interactor)
         }
         return this
@@ -17,7 +20,7 @@ internal class MultipleMatching<T : View>(private val views: List<T>) : Matching
         var result = true
         var id = 0
 
-        runInUiThread {
+        threadRunner {
             for (view in views) {
                 result = verifier(view)
 

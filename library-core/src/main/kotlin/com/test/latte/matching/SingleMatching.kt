@@ -4,17 +4,21 @@ import android.view.View
 import com.test.latte.thread.runInUiThread
 
 @PublishedApi
-internal class SingleMatching<T : View>(private val view: T) : Matching<T> {
+internal class SingleMatching<T : View>(
+    private val view: T,
+    private val threadRunner: (() -> Boolean) -> Boolean = ::runInUiThread
+) : Matching<T> {
 
     override fun interact(interactor: T.() -> Unit): Matching<T> {
-        runInUiThread {
+        threadRunner {
             interactor(view)
+            true
         }
         return this
     }
 
     override fun verify(message: String?, verifier: T.() -> Boolean): Matching<T> {
-        val result = runInUiThread {
+        val result = threadRunner {
             verifier(view)
         }
 
