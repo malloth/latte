@@ -35,18 +35,14 @@ inline fun <reified T : View> match(
 ): Matching<T> {
     val matches = matchViews(matchFlags, matchPredicate)
 
-    if (matches.isEmpty()) {
-        throw MatchException("No views found matching given criteria")
-    }
-
-    return when (matchType) {
-        SINGLE -> if (matches.size == 1) {
-            SingleMatching(matches.first())
-        } else {
-            throw MatchException("Found ${matches.size} views matching given criteria")
+    return when (matches.size) {
+        0 -> throw MatchException("No views found matching given criteria")
+        1 -> SingleMatching(matches[0])
+        else -> when (matchType) {
+            SINGLE -> throw MatchException("Found ${matches.size} views matching given criteria")
+            FIRST -> SingleMatching(matches.first())
+            ALL -> MultipleMatching(matches)
         }
-        FIRST -> SingleMatching(matches.first())
-        ALL -> MultipleMatching(matches)
     }
 }
 
