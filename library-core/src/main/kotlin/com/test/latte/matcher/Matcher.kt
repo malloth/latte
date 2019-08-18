@@ -1,11 +1,11 @@
 package com.test.latte.matcher
 
 import android.view.View
-import com.test.latte.matcher.MatchType.*
+import com.test.latte.matcher.MatchType.SINGLE
 import com.test.latte.matcher.exception.MatchException
 import com.test.latte.matching.Matching
-import com.test.latte.matching.MultipleMatching
-import com.test.latte.matching.SingleMatching
+import com.test.latte.matching.matchingFor
+import com.test.latte.matching.noMatchingFor
 
 /**
  * Type alias for generic matcher predicate.
@@ -32,19 +32,7 @@ inline fun <reified T : View> match(
     matchType: MatchType = SINGLE,
     matchFlags: Int = MATCH_DEFAULT,
     noinline matchPredicate: MatchPredicate<T>
-): Matching<T> {
-    val matches = matchViews(matchFlags, matchPredicate)
-
-    return when (matches.size) {
-        0 -> throw MatchException("No views found matching given criteria")
-        1 -> SingleMatching(matches[0])
-        else -> when (matchType) {
-            SINGLE -> throw MatchException("Found ${matches.size} views matching given criteria")
-            FIRST -> SingleMatching(matches.first())
-            ALL -> MultipleMatching(matches)
-        }
-    }
-}
+): Matching<T> = matchingFor(matchViews(matchFlags, matchPredicate), matchType)
 
 /**
  * Ensures that no matching view of a specified type exists in the
@@ -60,13 +48,7 @@ inline fun <reified T : View> match(
 inline fun <reified T : View> noMatch(
     matchFlags: Int = MATCH_DEFAULT,
     noinline matchPredicate: MatchPredicate<T>
-) {
-    val matches = matchViews(matchFlags, matchPredicate)
-
-    if (matches.isNotEmpty()) {
-        throw MatchException("Found ${matches.size} views matching given criteria")
-    }
-}
+) = noMatchingFor(matchViews(matchFlags, matchPredicate))
 
 /**
  * Flag for matching views only inside active windows (activities, dialogs, popups).
