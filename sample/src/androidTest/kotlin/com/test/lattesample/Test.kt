@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.test.rule.ActivityTestRule
 import com.test.latte.interactor.inputText
 import com.test.latte.interactor.performItemClick
+import com.test.latte.interactor.user
 import com.test.latte.matcher.match
 import com.test.latte.matcher.noMatch
 import com.test.latte.verifier.hasText
@@ -77,6 +78,14 @@ class Test {
 
         match<TextView> {
             hasText(R.string.label)
+        }
+
+        user {
+            pressBack()
+        }
+
+        match<Button> {
+            id == R.id.button1
         }
     }
 }
