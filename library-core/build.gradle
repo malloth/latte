@@ -65,7 +65,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
-    implementation "androidx.test:runner:$testRunnerVersion"
+    implementation "androidx.test:monitor:$testRunnerVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
