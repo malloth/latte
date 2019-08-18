@@ -5,7 +5,7 @@ import com.test.latte.thread.runInUiThread
 
 @PublishedApi
 internal class MultipleMatching<T : View>(
-    private val views: List<T>,
+    val views: List<T>,
     private val threadRunner: (() -> Unit) -> Unit = ::runInUiThread
 ) : Matching<T> {
 

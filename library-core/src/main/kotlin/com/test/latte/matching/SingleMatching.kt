@@ -5,7 +5,7 @@ import com.test.latte.thread.runInUiThread
 
 @PublishedApi
 internal class SingleMatching<T : View>(
-    private val view: T,
+    val view: T,
     private val threadRunner: (() -> Boolean) -> Boolean = ::runInUiThread
 ) : Matching<T> {
 
