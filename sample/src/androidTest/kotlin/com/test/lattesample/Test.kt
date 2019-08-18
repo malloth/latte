@@ -88,4 +88,29 @@ class Test {
             id == R.id.button1
         }
     }
+
+    @Test
+    fun test5() {
+        match<Button> {
+            id == R.id.button2
+        }.interact {
+            performClick()
+        }
+
+        match<TextView> {
+            hasText(R.string.label)
+        }
+
+        noMatch<Button> {
+            id == R.id.button2
+        }
+
+        user {
+            pressBack()
+        }
+
+        match<Button> {
+            id == R.id.button2
+        }
+    }
 }

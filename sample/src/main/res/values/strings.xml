@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Latte</string>
-    <string name="button">Button 1</string>
+    <string name="hint_number">enter number</string>
+    <string name="button1">Button 1</string>
+    <string name="button2">Button 2</string>
     <string name="label">Test 1</string>
     <string-array name="items">
         <item>Item 1</item>
