@@ -15,7 +15,7 @@ class SingleMatchingTest {
     private val tested = SingleMatching(viewMock, currentThreadRunner)
 
     @Test
-    fun runsInteractions() {
+    fun `performs interactions on a view`() {
         val interactions: TextView.() -> Unit = mock()
 
         tested.interact(interactions)
@@ -25,7 +25,7 @@ class SingleMatchingTest {
     }
 
     @Test
-    fun runsVerifications() {
+    fun `performs verifications on a view`() {
         val verifications: TextView.() -> Boolean = mock {
             onGeneric { invoke(viewMock) } doReturn true
         }
@@ -37,7 +37,7 @@ class SingleMatchingTest {
     }
 
     @Test(expected = AssertionError::class)
-    fun throwsAssertionErrorWhenVerificationReturnsFalse() {
+    fun `throws AssertionError when verification returns false`() {
         val verifications: TextView.() -> Boolean = mock {
             onGeneric { invoke(viewMock) } doReturn false
         }

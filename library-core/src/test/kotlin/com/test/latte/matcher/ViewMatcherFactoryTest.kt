@@ -2,19 +2,16 @@ package com.test.latte.matcher
 
 import android.widget.ListView
 import android.widget.TextView
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.*
 import org.junit.Test
 
 class ViewMatcherFactoryTest {
 
-    private val context = getInstrumentation().context
-
     private val tested = ViewMatcherFactory
 
     @Test
-    fun createsViewMatcher() {
+    fun `creates a ViewMatcher`() {
         val matchPredicateMock: MatchPredicate<TextView> = mock()
 
         val viewMatcher = tested.create(matchPredicateMock)
@@ -23,8 +20,8 @@ class ViewMatcherFactoryTest {
     }
 
     @Test
-    fun createdViewMatcherDoesNotUseMatchPredicateWhenViewIsOfInvalidType() {
-        val view = ListView(context)
+    fun `created ViewMatcher does not use MatchPredicate when view is of invalid type`() {
+        val view: ListView = mock()
         val matchPredicateMock: MatchPredicate<TextView> = mock()
 
         val viewMatcher = tested.create(matchPredicateMock)
@@ -34,8 +31,8 @@ class ViewMatcherFactoryTest {
     }
 
     @Test
-    fun createdViewMatcherUsesMatchPredicateWhenViewIsOfValidType() {
-        val view = TextView(context)
+    fun `created ViewMatcher uses MatchPredicate when view is of valid type`() {
+        val view: TextView = mock()
         val matchPredicateMock: MatchPredicate<TextView> = mock {
             onGeneric { invoke(any()) } doReturn true
         }
@@ -47,8 +44,8 @@ class ViewMatcherFactoryTest {
     }
 
     @Test
-    fun createdViewMatcherReturnsFalseWhenViewIsOfInvalidType() {
-        val view = ListView(context)
+    fun `created ViewMatcher returns false when view is of invalid type`() {
+        val view: ListView = mock()
         val matchPredicateMock: MatchPredicate<TextView> = mock()
 
         val viewMatcher = tested.create(matchPredicateMock)
@@ -58,8 +55,8 @@ class ViewMatcherFactoryTest {
     }
 
     @Test
-    fun createdViewMatcherReturnsFalseWhenViewIsOfValidTypeAndDoesNotMatchThePredicate() {
-        val view = TextView(context)
+    fun `created ViewMatcher returns false when view is of valid type and does not match the predicate`() {
+        val view: TextView = mock()
         val matchPredicateMock: MatchPredicate<TextView> = mock {
             onGeneric { invoke(any()) } doReturn false
         }
@@ -71,8 +68,8 @@ class ViewMatcherFactoryTest {
     }
 
     @Test
-    fun createdViewMatcherReturnsTrueWhenViewIsOfValidTypeAndMatchesThePredicate() {
-        val view = TextView(context)
+    fun `created ViewMatcher returns true when view is of valid type and matches the predicate`() {
+        val view: TextView = mock()
         val matchPredicateMock: MatchPredicate<TextView> = mock {
             onGeneric { invoke(any()) } doReturn true
         }

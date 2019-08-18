@@ -12,7 +12,7 @@ class MultipleMatchingTest {
     private val tested = MultipleMatching(viewMocks, currentThreadRunner)
 
     @Test
-    fun runsInteractions() {
+    fun `performs interactions on all views`() {
         val interactions: TextView.() -> Unit = mock()
 
         tested.interact(interactions)
@@ -24,7 +24,7 @@ class MultipleMatchingTest {
     }
 
     @Test
-    fun runsVerifications() {
+    fun `performs verifications on all views`() {
         val verifications: TextView.() -> Boolean = mock {
             onGeneric { invoke(any()) } doReturn true
         }
@@ -38,7 +38,7 @@ class MultipleMatchingTest {
     }
 
     @Test(expected = AssertionError::class)
-    fun throwsAssertionErrorWhenVerificationReturnsFalse() {
+    fun `throws AssertionError when verification on any view returns false`() {
         val verifications: TextView.() -> Boolean = mock {
             onGeneric { invoke(any()) } doReturn false
         }
