@@ -4,7 +4,7 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.widget.*
 import androidx.test.rule.ActivityTestRule
-import com.test.latte.interactor.inputText
+import com.test.latte.interactor.typeText
 import com.test.latte.interactor.performItemClick
 import com.test.latte.interactor.user
 import com.test.latte.matcher.match
@@ -29,7 +29,7 @@ class Test {
             id == R.id.edit1
         }.interact {
             performClick()
-            inputText("123")
+            typeText("abc123")
         }.verify("EditText is not focused") {
             isFocused
         }.verify("EditText does not have text '123'") {

@@ -7,12 +7,12 @@ import android.view.KeyCharacterMap.load
 import android.widget.EditText
 
 /**
- * Inputs given text into an [EditText] by using a
+ * Types given text into an [EditText] by using a
  * virtual keyboard, thus emulating user behaviour.
  *
- * @param text text to be input
+ * @param text text to be typed
  */
-fun EditText.inputText(text: String) {
+fun EditText.typeText(text: String) {
     val keyCharacterMap = load(VIRTUAL_KEYBOARD)
     val events = keyCharacterMap.getEvents(text.toCharArray())
 
