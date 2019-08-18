@@ -1,6 +1,7 @@
 package com.test.latte.matching
 
 import android.view.View
+import androidx.annotation.UiThread
 
 /**
  * Interface for performing interactions and verifications over matched view(s).
@@ -13,6 +14,7 @@ interface Matching<T : View> {
      * @param interactor set of interactions
      * @return this instance of [Matching]
      */
+    @UiThread
     fun interact(interactor: T.() -> Unit): Matching<T>
 
     /**
@@ -22,5 +24,6 @@ interface Matching<T : View> {
      * @param verifier set of verifications
      * @return this instance of [Matching]
      */
+    @UiThread
     fun verify(message: String? = null, verifier: T.() -> Boolean): Matching<T>
 }

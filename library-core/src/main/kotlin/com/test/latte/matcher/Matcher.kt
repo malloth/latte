@@ -1,6 +1,7 @@
 package com.test.latte.matcher
 
 import android.view.View
+import androidx.annotation.WorkerThread
 import com.test.latte.matcher.MatchType.SINGLE
 import com.test.latte.matcher.exception.MatchException
 import com.test.latte.matching.Matching
@@ -28,6 +29,7 @@ typealias MatchPredicate<T> = T.() -> Boolean
  * @throws MatchException if no matching view was found, or
  * multiple matches were found and [matchType] was set to [MatchType.SINGLE]
  */
+@WorkerThread
 inline fun <reified T : View> match(
     matchType: MatchType = SINGLE,
     matchFlags: Int = MATCH_DEFAULT,
@@ -45,6 +47,7 @@ inline fun <reified T : View> match(
  * @param matchPredicate predicate describing which view should be considered a match
  * @throws MatchException if any matching view was found
  */
+@WorkerThread
 inline fun <reified T : View> noMatch(
     matchFlags: Int = MATCH_DEFAULT,
     noinline matchPredicate: MatchPredicate<T>
