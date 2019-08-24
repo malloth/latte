@@ -9,8 +9,8 @@ buildscript {
         // Environment
         lowSdkVersion = 21
         highSdkVersion = 28
-        toolsVersion = '3.4.2'
-        kotlinVersion = '1.3.41'
+        toolsVersion = '3.5.0'
+        kotlinVersion = '1.3.50'
 
         // Android
         androidxAnnotationVersion = '1.0.0'
