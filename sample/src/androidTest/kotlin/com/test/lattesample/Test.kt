@@ -33,8 +33,8 @@ class Test {
             typeText("abc123")
         }.verify {
             isFocused
-        }.verifyWithResult {
-            hasText("123") orFail "EditText has text $text instead of '123'"
+        }.verify {
+            hasText("123") orFail "EditText has text '$text' instead of '123'"
         }
     }
 
@@ -49,7 +49,7 @@ class Test {
     fun test3() {
         match<Spinner> {
             id == R.id.spinner1
-        }.verifyWithResult {
+        }.verify{
             (selectedItemPosition == 2) orFail "Spinner has selected position $selectedItemPosition instead of 2"
         }.interact {
             performClick()
@@ -64,7 +64,7 @@ class Test {
 
         match<Spinner> {
             id == R.id.spinner1
-        }.verifyWithResult {
+        }.verify {
             (selectedItemPosition == 4) orFail "Spinner has selected position $selectedItemPosition instead of 4"
         }
     }

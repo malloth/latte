@@ -10,7 +10,7 @@ import org.junit.Test
 class SingleMatchingTest {
 
     private val viewMock = mock<TextView>()
-    private val currentThreadRunner: (() -> Any) -> Any = { it() }
+    private val currentThreadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = { it() }
 
     private val tested = SingleMatching(viewMock, currentThreadRunner)
 

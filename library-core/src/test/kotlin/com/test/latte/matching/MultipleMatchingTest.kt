@@ -7,7 +7,7 @@ import org.junit.Test
 class MultipleMatchingTest {
 
     private val viewMocks: List<TextView> = listOf(mock(), mock(), mock())
-    private val currentThreadRunner: (() -> Unit) -> Unit = { it() }
+    private val currentThreadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = { it() }
 
     private val tested = MultipleMatching(viewMocks, currentThreadRunner)
 

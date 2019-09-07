@@ -97,7 +97,7 @@ assertion fails:
 ```kotlin
 match<View> {
     // matching view's conditions
-}.verifyWithResult {
+}.verify {
     someAssertion() orFail "Something has gone wrong with this view!"
 }
 ```
@@ -112,7 +112,7 @@ match<EditText> {
     inputText("123")
 }.verify {
     isFocused
-}.verifyWithResult {
+}.verify {
     hasText("123") orFail "EditText has text '$text' instead of '123'"
 }
 ```

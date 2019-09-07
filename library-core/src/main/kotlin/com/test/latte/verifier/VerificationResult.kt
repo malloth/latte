@@ -1,17 +1,5 @@
 package com.test.latte.verifier
 
-import com.test.latte.matching.Matching
-
-/**
- * Type alias for verifier predicate returning [Boolean] as a result.
- */
-typealias SimpleVerifier<T> = T.() -> Boolean
-
-/**
- * Type alias for verifier predicate returning [VerificationResult] as a result.
- */
-typealias ResultiveVerifier<T> = T.() -> VerificationResult
-
 /**
  * Structure describing a verification result.
  *
@@ -23,11 +11,8 @@ typealias ResultiveVerifier<T> = T.() -> VerificationResult
 data class VerificationResult(
     val isSuccess: Boolean,
     val failureDescription: String
-)
+) : Comparable<Boolean> {
 
-/**
- * Creates a [VerificationResult] from a [Boolean] result.
- * It should be used inside [Matching.verifyWithResult] method.
- */
-infix fun Boolean.orFail(failureDescription: String): VerificationResult =
-    VerificationResult(this, failureDescription)
+    override fun compareTo(other: Boolean): Int =
+        isSuccess.compareTo(other)
+}

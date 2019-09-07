@@ -1,64 +1,46 @@
 package com.test.latte.matching
 
 import android.view.View
-import android.view.View.NO_ID
+import com.test.latte.interactor.Interactor
 import com.test.latte.thread.runInUiThread
-import com.test.latte.verifier.ResultiveVerifier
+import com.test.latte.util.debugId
 import com.test.latte.verifier.VerificationResult
+import com.test.latte.verifier.Verifier
 
 @PublishedApi
 internal class MultipleMatching<T : View>(
     val views: List<T>,
-    private val threadRunner: (() -> Unit) -> Unit = ::runInUiThread
+    private val threadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = ::runInUiThread
 ) : Matching<T> {
 
-    override fun interact(interactor: T.() -> Unit): Matching<T> {
+    override fun interact(interactor: Interactor<T>): Matching<T> {
         threadRunner {
             views.forEach(interactor)
+            true
         }
         return this
     }
 
-    override fun verify(verifier: T.() -> Boolean): Matching<T> {
-        var verificationResult = true
-        var id = NO_ID
-
-        threadRunner {
+    override fun verify(verifier: Verifier<T>): Matching<T> {
+        var id: String? = null
+        val result = threadRunner {
             for (view in views) {
-                val result = verifier(view)
+                val r = verifier(view)
 
-                if (!result) {
-                    verificationResult = result
-                    id = view.id
-                    break
+                if (r.compareTo(false) == 0) {
+                    id = view.debugId
+                    return@threadRunner r
                 }
             }
+            true
         }
 
-        if (!verificationResult) {
-            throw AssertionError("View with id '$id' did not pass verification")
-        }
-        return this
-    }
-
-    override fun verifyWithResult(verifier: ResultiveVerifier<T>): Matching<T> {
-        var verificationResult: VerificationResult? = null
-
-        threadRunner {
-            for (view in views) {
-                val result = verifier(view)
-
-                if (!result.isSuccess) {
-                    verificationResult = result
-                    break
-                }
+        if (result.compareTo(false) == 0) {
+            val message = when (result) {
+                is VerificationResult -> result.failureDescription
+                else -> "View with id '${id}' did not pass verification"
             }
-        }
-
-        verificationResult?.let {
-            if (!it.isSuccess) {
-                throw AssertionError(it.failureDescription)
-            }
+            throw AssertionError(message)
         }
         return this
     }
