@@ -4,12 +4,13 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.widget.*
 import androidx.test.rule.ActivityTestRule
-import com.test.latte.interactor.typeText
 import com.test.latte.interactor.performItemClick
+import com.test.latte.interactor.typeText
 import com.test.latte.interactor.user
 import com.test.latte.matcher.match
 import com.test.latte.matcher.noMatch
 import com.test.latte.verifier.hasText
+import com.test.latte.verifier.orFail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -30,10 +31,10 @@ class Test {
         }.interact {
             performClick()
             typeText("abc123")
-        }.verify("EditText is not focused") {
+        }.verify {
             isFocused
-        }.verify("EditText does not have text '123'") {
-            hasText("123")
+        }.verifyWithResult {
+            hasText("123") orFail "EditText has text $text instead of '123'"
         }
     }
 
@@ -48,8 +49,8 @@ class Test {
     fun test3() {
         match<Spinner> {
             id == R.id.spinner1
-        }.verify("Spinner does not have selected position 2") {
-            selectedItemPosition == 2
+        }.verifyWithResult {
+            (selectedItemPosition == 2) orFail "Spinner has selected position $selectedItemPosition instead of 2"
         }.interact {
             performClick()
         }
@@ -63,8 +64,8 @@ class Test {
 
         match<Spinner> {
             id == R.id.spinner1
-        }.verify("Spinner does not have selected position 4") {
-            selectedItemPosition == 4
+        }.verifyWithResult {
+            (selectedItemPosition == 4) orFail "Spinner has selected position $selectedItemPosition instead of 4"
         }
     }
 

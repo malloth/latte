@@ -1,7 +1,10 @@
 package com.test.latte.matching
 
 import android.view.View
+import android.view.View.NO_ID
 import com.test.latte.thread.runInUiThread
+import com.test.latte.verifier.ResultiveVerifier
+import com.test.latte.verifier.VerificationResult
 
 @PublishedApi
 internal class MultipleMatching<T : View>(
@@ -16,23 +19,46 @@ internal class MultipleMatching<T : View>(
         return this
     }
 
-    override fun verify(message: String?, verifier: T.() -> Boolean): Matching<T> {
-        var result = true
-        var id = 0
+    override fun verify(verifier: T.() -> Boolean): Matching<T> {
+        var verificationResult = true
+        var id = NO_ID
 
         threadRunner {
             for (view in views) {
-                result = verifier(view)
+                val result = verifier(view)
 
                 if (!result) {
+                    verificationResult = result
                     id = view.id
                     break
                 }
             }
         }
 
-        if (!result) {
-            throw AssertionError(message ?: "View with id '$id' did not pass verification")
+        if (!verificationResult) {
+            throw AssertionError("View with id '$id' did not pass verification")
+        }
+        return this
+    }
+
+    override fun verifyWithResult(verifier: ResultiveVerifier<T>): Matching<T> {
+        var verificationResult: VerificationResult? = null
+
+        threadRunner {
+            for (view in views) {
+                val result = verifier(view)
+
+                if (!result.isSuccess) {
+                    verificationResult = result
+                    break
+                }
+            }
+        }
+
+        verificationResult?.let {
+            if (!it.isSuccess) {
+                throw AssertionError(it.failureDescription)
+            }
         }
         return this
     }

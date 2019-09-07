@@ -37,16 +37,18 @@ dependencies {
 Maven:
 
 ```xml
-<dependency>
-    <groupId>com.test.latte</groupId>
-    <artifactId>core</artifactId>
-    <version>LATEST_VERSION</version>
-</dependency>
-<dependency>
-    <groupId>com.test.latte</groupId>
-    <artifactId>extensions</artifactId>
-    <version>LATEST_VERSION</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>com.test.latte</groupId>
+        <artifactId>core</artifactId>
+        <version>LATEST_VERSION</version>
+    </dependency>
+    <dependency>
+        <groupId>com.test.latte</groupId>
+        <artifactId>extensions</artifactId>
+        <version>LATEST_VERSION</version>
+    </dependency>
+</dependencies>
 ```
 
 For current `LATEST_VERSION` please check GitHub's `releases` tab. 
@@ -95,8 +97,8 @@ assertion fails:
 ```kotlin
 match<View> {
     // matching view's conditions
-}.verify("Something has gone wrong with this view!") {
-    // assertions performed on a view
+}.verifyWithResult {
+    someAssertion() orFail "Something has gone wrong with this view!"
 }
 ```
 
@@ -108,10 +110,10 @@ match<EditText> {
 }.interact {
     performClick()
     inputText("123")
-}.verify("EditText is not focused") {
+}.verify {
     isFocused
-}.verify("EditText does not have text '123'") {
-    hasText("123")
+}.verifyWithResult {
+    hasText("123") orFail "EditText has text '$text' instead of '123'"
 }
 ```
 

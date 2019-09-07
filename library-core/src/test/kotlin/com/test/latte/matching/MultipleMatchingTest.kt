@@ -29,7 +29,7 @@ class MultipleMatchingTest {
             onGeneric { invoke(any()) } doReturn true
         }
 
-        tested.verify(null, verifications)
+        tested.verify(verifications)
 
         verify(verifications).invoke(viewMocks[0])
         verify(verifications).invoke(viewMocks[1])
@@ -43,6 +43,6 @@ class MultipleMatchingTest {
             onGeneric { invoke(any()) } doReturn false
         }
 
-        tested.verify(null, verifications)
+        tested.verify(verifications)
     }
 }

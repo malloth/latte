@@ -10,7 +10,7 @@ import org.junit.Test
 class SingleMatchingTest {
 
     private val viewMock = mock<TextView>()
-    private val currentThreadRunner: (() -> Boolean) -> Boolean = { it() }
+    private val currentThreadRunner: (() -> Any) -> Any = { it() }
 
     private val tested = SingleMatching(viewMock, currentThreadRunner)
 
@@ -30,7 +30,7 @@ class SingleMatchingTest {
             onGeneric { invoke(viewMock) } doReturn true
         }
 
-        tested.verify(null, verifications)
+        tested.verify(verifications)
 
         verify(verifications).invoke(viewMock)
         verifyNoMoreInteractions(verifications)
@@ -42,6 +42,6 @@ class SingleMatchingTest {
             onGeneric { invoke(viewMock) } doReturn false
         }
 
-        tested.verify(null, verifications)
+        tested.verify(verifications)
     }
 }
