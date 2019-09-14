@@ -17,7 +17,7 @@ Android utilizing Kotlin DSL.
 ## Requirements
 
 - Minimum Android SDK: 21
-- Compile Android SDK: 28 or later
+- Compile Android SDK: 29 or later
 
 ## Setup
 

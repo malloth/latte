@@ -8,7 +8,7 @@ buildscript {
 
         // Environment
         lowSdkVersion = 21
-        highSdkVersion = 28
+        highSdkVersion = 29
         toolsVersion = '3.5.0'
         kotlinVersion = '1.3.50'
 
