@@ -10,8 +10,8 @@ internal object WindowRootProvider : RootProvider {
     private const val WINDOW_MANAGER_GLOBAL_GET_INSTANCE = "getInstance"
     private const val WINDOW_MANAGER_GLOBAL_VIEWS = "mViews"
 
-    private val windowManagerGlobal: Any
-    private val viewsField: Field
+    private val windowManagerGlobal: Any?
+    private val viewsField: Field?
 
     init {
         @SuppressLint("PrivateApi")
@@ -25,5 +25,7 @@ internal object WindowRootProvider : RootProvider {
 
     @Suppress("UNCHECKED_CAST")
     override val roots: List<Root>
-        get() = (viewsField.get(windowManagerGlobal) as List<View>).map { WindowRoot(it) }
+        get() = (viewsField?.get(windowManagerGlobal) as List<View>?)
+            .orEmpty()
+            .map { WindowRoot(it) }
 }
