@@ -5,8 +5,8 @@ import com.test.latte.hierarchy.DepthFirstViewTreeWalk
 import com.test.latte.hierarchy.RootProvider
 import com.test.latte.hierarchy.ViewTreeWalk
 import com.test.latte.hierarchy.WindowRootProvider
-import com.test.latte.thread.MainThreadObserver
-import com.test.latte.thread.ThreadObserver
+import com.test.latte.thread.MainThreadIdleChecker
+import com.test.latte.thread.IdleChecker
 import com.test.latte.util.filterIf
 import com.test.latte.util.hasFlags
 import com.test.latte.util.mapIf
@@ -19,10 +19,10 @@ internal inline fun <reified T : View> matchViews(
     noinline matchPredicate: MatchPredicate<T>,
     viewMatcherFactory: (MatchPredicate<T>) -> ViewMatcher = ViewMatcherFactory::create,
     viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk,
-    threadObserver: ThreadObserver = MainThreadObserver,
+    idleChecker: IdleChecker = MainThreadIdleChecker,
     rootProvider: RootProvider = WindowRootProvider
 ): List<T> {
-    threadObserver.waitUntilIdle()
+    idleChecker.waitUntilIdle()
 
     val roots = rootProvider.roots
 

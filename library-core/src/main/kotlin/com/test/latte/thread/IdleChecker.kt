@@ -1,7 +1,7 @@
 package com.test.latte.thread
 
 @PublishedApi
-internal interface ThreadObserver {
+internal interface IdleChecker {
 
     fun waitUntilIdle()
 }

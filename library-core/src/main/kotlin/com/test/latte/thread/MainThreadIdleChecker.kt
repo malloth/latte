@@ -3,7 +3,7 @@ package com.test.latte.thread
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 @PublishedApi
-internal object MainThreadObserver : ThreadObserver {
+internal object MainThreadIdleChecker : IdleChecker {
 
     private val instrumentation = getInstrumentation()
 

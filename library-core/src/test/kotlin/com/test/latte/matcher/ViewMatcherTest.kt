@@ -8,7 +8,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.test.latte.hierarchy.Root
 import com.test.latte.hierarchy.RootProvider
 import com.test.latte.hierarchy.ViewTreeWalk
-import com.test.latte.thread.ThreadObserver
+import com.test.latte.thread.IdleChecker
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -19,7 +19,7 @@ class ViewMatcherTest {
     private val viewMatcherMock: ViewMatcher = mock()
     private val viewMatcherFactory: (MatchPredicate<View>) -> ViewMatcher = { viewMatcherMock }
     private val viewTreeWalkMock: ViewTreeWalk = mock()
-    private val threadObserverMock: ThreadObserver = mock()
+    private val idleCheckerMock: IdleChecker = mock()
     private val rootProviderMock: RootProvider = mock()
 
     @Test
@@ -29,11 +29,11 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
-        verify(threadObserverMock).waitUntilIdle()
+        verify(idleCheckerMock).waitUntilIdle()
     }
 
     @Test
@@ -45,7 +45,7 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
@@ -66,7 +66,7 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
@@ -85,7 +85,7 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
@@ -107,7 +107,7 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
@@ -128,7 +128,7 @@ class ViewMatcherTest {
             matchPredicateMock,
             viewMatcherFactory,
             viewTreeWalkMock,
-            threadObserverMock,
+            idleCheckerMock,
             rootProviderMock
         )
 
