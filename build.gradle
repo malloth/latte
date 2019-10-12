@@ -14,7 +14,7 @@ buildscript {
 
         // Android
         androidxAnnotationVersion = '1.0.0'
-        androidxAppCompatVersion = '1.0.2'
+        androidxAppCompatVersion = '1.1.0'
 
         // Util
         bintrayVersion = '1.8.4'

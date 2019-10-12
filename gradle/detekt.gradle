@@ -4,7 +4,6 @@ detekt {
     version = detektVersion
     profile("main") {
         input = "$projectDir/src/main/kotlin"
-        config = "$rootDir/detekt/default-detekt-config.yml"
         filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
         output = "$projectDir/build/detekt"
     }
