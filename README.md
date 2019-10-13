@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/malloth/latte.svg?branch=master)](https://travis-ci.org/malloth/latte)
+
 # Latte
 
 Latte is a lightweight and easy to use UI testing framework for 
