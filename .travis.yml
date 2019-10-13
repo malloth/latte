@@ -35,19 +35,10 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 stages:
-  - analysis
-  - compile
-  - test
+  - build
 
 jobs:
   include:
-    - stage: analysis
-      script: ./gradlew clean detektCheck lint
-    - stage: compile
-      install: skip
-      before_cache: skip
-      script: ./gradlew assemble --stacktrace
-    - stage: test
-      install: skip
-      before_cache: skip
-      script: ./gradlew test
+    - stage: build
+      script:
+        - ./gradlew clean build
