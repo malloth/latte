@@ -27,6 +27,7 @@ apply from: "$rootDir/gradle/bintray.gradle"
 
 android {
     compileSdkVersion highSdkVersion
+    buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
         minSdkVersion lowSdkVersion

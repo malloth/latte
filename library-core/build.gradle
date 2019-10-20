@@ -27,6 +27,7 @@ apply from: "$rootDir/gradle/bintray.gradle"
 
 android {
     compileSdkVersion highSdkVersion
+    buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
         minSdkVersion lowSdkVersion
@@ -72,4 +73,5 @@ dependencies {
     androidTestImplementation "junit:junit:$junitVersion"
     androidTestImplementation "org.mockito:mockito-android:$mockitoAndroidVersion"
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
 }
