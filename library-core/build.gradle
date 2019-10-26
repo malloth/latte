@@ -59,6 +59,10 @@ android {
             freeCompilerArgs += ['-module-name', "$groupId.$artifactId"]
         }
     }
+
+    testOptions {
+        animationsDisabled true
+    }
 }
 
 dependencies {

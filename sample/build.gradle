@@ -37,6 +37,10 @@ android {
             allWarningsAsErrors = true
         }
     }
+
+    testOptions {
+        animationsDisabled true
+    }
 }
 
 dependencies {
