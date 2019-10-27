@@ -12,7 +12,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokkaVersion"
-        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
     }
 }
 

@@ -20,7 +20,7 @@ buildscript {
         // Util
         bintrayVersion = '1.8.4'
         dokkaVersion = '0.9.18'
-        detektVersion = '1.0.0.RC8'
+        detektVersion = '1.1.1'
 
         // Test
         junitVersion = '4.12'
