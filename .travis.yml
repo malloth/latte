@@ -1,6 +1,9 @@
 language: android
 dist: trusty
 
+jdk:
+  - openjdk8
+
 env:
   global:
     - ANDROID_API=29

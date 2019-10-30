@@ -54,6 +54,9 @@ android {
     }
 
     compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+
         kotlinOptions {
             allWarningsAsErrors = true
             freeCompilerArgs += ['-module-name', "$groupId.$artifactId"]
