@@ -60,6 +60,7 @@ android {
         kotlinOptions {
             allWarningsAsErrors = true
             freeCompilerArgs += ['-module-name', "$groupId.$artifactId"]
+            jvmTarget = "1.8"
         }
     }
 
