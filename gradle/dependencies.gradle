@@ -28,7 +28,7 @@ ext {
     TestLibs_kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit5:${Versions.kotlin}"
     TestLibs_mockitoAndroid = "org.mockito:mockito-android:${Versions.mockitoAndroid}"
     TestLibs_mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
-    TestLibs_monitor = "androidx.test:monitor:${Versions.monitor}"
-    TestLibs_runner = "androidx.test:runner:${Versions.runner}"
-    TestLibs_rules = "androidx.test:rules:${Versions.rules}"
+    TestLibs_androidxMonitor = "androidx.test:monitor:${Versions.monitor}"
+    TestLibs_androidxRunner = "androidx.test:runner:${Versions.runner}"
+    TestLibs_androidxRules = "androidx.test:rules:${Versions.rules}"
 }

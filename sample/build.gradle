@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android'
 apply from: "$rootDir/gradle/dependencies.gradle"
 
 android {
-    namespace "com.test.lattesample"
+    namespace "pl.codesamurai.latte.sample"
     compileSdkVersion Integer.parseInt(COMPILE_SDK)
 
     buildFeatures {
@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.test.lattesample"
+        applicationId "pl.codesamurai.latte.sample"
         minSdkVersion Integer.parseInt(MIN_SDK)
         targetSdkVersion Integer.parseInt(TARGET_SDK)
         versionName libVersion
@@ -44,13 +44,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
         allWarningsAsErrors = true
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     testOptions {
@@ -62,7 +62,7 @@ android {
                     device = "Pixel 2"
                     apiLevel = 30
                     systemImageSource = "aosp-atd"
-                    require64Bit = false
+                    require64Bit = true
                 }
             }
         }
@@ -76,6 +76,7 @@ dependencies {
 
     androidTestImplementation project(':lib-core')
     androidTestImplementation project(':lib-extensions')
-    androidTestImplementation TestLibs_rules
-    androidTestImplementation TestLibs_runner
+
+    androidTestImplementation TestLibs_androidxRules
+    androidTestImplementation TestLibs_androidxRunner
 }

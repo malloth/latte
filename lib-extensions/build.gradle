@@ -1,7 +1,7 @@
 ext {
     artifactId = "extensions"
     artifactName = "Extensions"
-    groupId = "com.test.latte"
+    groupId = "pl.codesamurai.latte"
 }
 
 apply from: "$rootDir/gradle/common.gradle"
@@ -11,7 +11,7 @@ dependencies {
     implementation Libs_kotlin
 
     implementation Libs_androidxAnnotation
-    implementation TestLibs_monitor
+    implementation TestLibs_androidxMonitor
 }
 
 apply from: "$rootDir/gradle/dokka.gradle"

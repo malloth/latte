@@ -16,6 +16,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SuplementaryActivity" />
+        <activity android:name=".SupplementaryActivity" />
     </application>
 </manifest>

@@ -1,7 +1,7 @@
 ext {
     artifactId = "core"
     artifactName = "Core"
-    groupId = "com.test.latte"
+    groupId = "pl.codesamurai.latte"
 }
 
 apply from: "$rootDir/gradle/common.gradle"
@@ -11,7 +11,7 @@ dependencies {
     implementation Libs_kotlin
 
     implementation Libs_androidxAnnotation
-    implementation TestLibs_monitor
+    implementation TestLibs_androidxMonitor
 
     testImplementation TestLibs_kotlinTestJunit
     testImplementation TestLibs_mockitoKotlin
@@ -19,7 +19,7 @@ dependencies {
     androidTestImplementation TestLibs_kotlinTestJunit
     androidTestImplementation TestLibs_mockitoAndroid
     androidTestImplementation TestLibs_mockitoKotlin
-    androidTestImplementation TestLibs_runner
+    androidTestImplementation TestLibs_androidxRunner
 }
 
 apply from: "$rootDir/gradle/dokka.gradle"
