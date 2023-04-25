@@ -1,0 +1,26 @@
+ext {
+    artifactId = "core"
+    artifactName = "Core"
+    groupId = "com.test.latte"
+}
+
+apply from: "$rootDir/gradle/common.gradle"
+apply from: "$rootDir/gradle/dependencies.gradle"
+
+dependencies {
+    implementation Libs_kotlin
+
+    implementation Libs_androidxAnnotation
+    implementation TestLibs_monitor
+
+    testImplementation TestLibs_kotlinTestJunit
+    testImplementation TestLibs_mockitoKotlin
+
+    androidTestImplementation TestLibs_kotlinTestJunit
+    androidTestImplementation TestLibs_mockitoAndroid
+    androidTestImplementation TestLibs_mockitoKotlin
+    androidTestImplementation TestLibs_runner
+}
+
+apply from: "$rootDir/gradle/dokka.gradle"
+apply from: "$rootDir/gradle/publish.gradle"

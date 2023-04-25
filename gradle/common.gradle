@@ -1,37 +1,32 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply from: "$rootDir/gradle/dependencies.gradle"
-
 android {
-    namespace "com.test.lattesample"
+    namespace "$groupId.$artifactId".replace('-', '_')
     compileSdkVersion Integer.parseInt(COMPILE_SDK)
 
     buildFeatures {
-        viewBinding true
+        buildConfig true
     }
 
     defaultConfig {
-        applicationId "com.test.lattesample"
         minSdkVersion Integer.parseInt(MIN_SDK)
         targetSdkVersion Integer.parseInt(TARGET_SDK)
         versionName libVersion
         versionCode libVersionCode
-        archivesBaseName = "latte-sample-v$versionName"
+        archivesBaseName = "latte-$artifactId-v$libVersion"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-proguard-rules.pro'
         }
     }
 
     sourceSets.all { sourceSet ->
-        sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
+        sourceSet.java.srcDirs += "src/${sourceSet.name}/kotlin"
     }
 
     lintOptions {
@@ -50,32 +45,23 @@ android {
 
     kotlinOptions {
         allWarningsAsErrors = true
+        moduleName = "$groupId.$artifactId"
+        freeCompilerArgs += ['-Xexplicit-api=strict']
         jvmTarget = "11"
     }
 
     testOptions {
         animationsDisabled true
-
-        managedDevices {
-            devices {
-                pixelC(ManagedVirtualDevice) {
-                    device = "Pixel 2"
-                    apiLevel = 30
-                    systemImageSource = "aosp-atd"
-                    require64Bit = false
+        unitTests {
+            returnDefaultValues = true
+            all {
+                useJUnitPlatform()
+                reports {
+                    junitXml {
+                        destination = file("$rootDir/build/test-results/${project.name}")
+                    }
                 }
             }
         }
     }
-}
-
-dependencies {
-    implementation Libs_kotlin
-
-    implementation Libs_androidxAppCompat
-
-    androidTestImplementation project(':lib-core')
-    androidTestImplementation project(':lib-extensions')
-    androidTestImplementation TestLibs_rules
-    androidTestImplementation TestLibs_runner
 }

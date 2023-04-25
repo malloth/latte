@@ -1,11 +1,8 @@
-[![Build Status](https://travis-ci.org/malloth/latte.svg?branch=master)](https://travis-ci.org/malloth/latte)
-
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # Latte
 
-Latte is a lightweight and easy to use UI testing framework for 
-Android utilizing Kotlin DSL. 
+Latte is a lightweight and easy to use UI testing framework for Android utilizing Kotlin DSL.
 
 #### Features
 

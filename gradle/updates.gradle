@@ -1,0 +1,19 @@
+apply plugin: 'com.github.ben-manes.versions'
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf { ComponentSelection selection ->
+        def dependency = selection.candidate
+
+        isNotStable(dependency.version) || isJaCoCoAnt(dependency)
+    }
+}
+
+private static def isNotStable(String version) {
+    return ["alpha", "beta", "rc", "eap", "m", "preview", "dev"].any {
+        version.toLowerCase().contains(it)
+    }
+}
+
+private static def isJaCoCoAnt(ModuleComponentIdentifier dependency) {
+    return dependency.group == "org.jacoco" && dependency.module == "org.jacoco.ant"
+}

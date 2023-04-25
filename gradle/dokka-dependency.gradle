@@ -1,0 +1,13 @@
+apply plugin: 'org.jetbrains.dokka'
+
+dokkaHtmlPartial {
+    dokkaSourceSets {
+        configureEach {
+            sourceRoots.from(file("$rootDir/lib-core/src/main/kotlin"))
+            perPackageOption {
+                matchingRegex.set("com.test.latte.*")
+                suppress.set(true)
+            }
+        }
+    }
+}

@@ -1,0 +1,52 @@
+apply plugin: 'maven-publish'
+apply plugin: 'org.jetbrains.dokka'
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    archiveClassifier.convention('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier.set('javadoc')
+    archiveClassifier.convention('javadoc')
+    from dokkaJavadoc.outputDirectory
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHub"
+            url = uri("https://maven.pkg.github.com/malloth/latte")
+            credentials {
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        release(MavenPublication) {
+            groupId = project.groupId
+            artifactId = project.artifactId
+            version = project.libVersion
+
+            afterEvaluate {
+                from components.release
+                artifact sourcesJar
+                artifact javadocJar
+            }
+        }
+
+        snapshot(MavenPublication) {
+            groupId = project.groupId
+            artifactId = project.artifactId
+            version = project.libVersion + "-SNAPSHOT"
+
+            afterEvaluate {
+                from components.debug
+                artifact sourcesJar
+            }
+        }
+    }
+}

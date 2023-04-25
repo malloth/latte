@@ -1,6 +1,13 @@
 apply plugin: 'org.jetbrains.dokka'
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/dokka"
+dokkaHtmlPartial {
+    moduleName.set(project.artifactName)
+    dokkaSourceSets {
+        configureEach {
+            noStdlibLink.set(true)
+            noJdkLink.set(true)
+            noAndroidSdkLink.set(true)
+            includes.from("MODULE.md")
+        }
+    }
 }

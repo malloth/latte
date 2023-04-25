@@ -1,0 +1,34 @@
+class Versions {
+
+    public final static String gradle = "8.0.0"
+    public final static String kotlin = "1.8.20"
+    public final static String benManesVersions = "0.44.0"
+    public final static String dokka = "1.7.20"
+
+    public final static String annotation = "1.5.0"
+    public final static String appCompat = "1.6.0"
+
+    public final static String mockitoAndroid = "4.11.0"
+    public final static String mockitoKotlin = "4.1.0"
+    public final static String monitor = "1.6.1"
+    public final static String runner = "1.5.2"
+    public final static String rules = "1.5.0"
+}
+
+ext {
+    ClassPaths_gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    ClassPaths_kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    ClassPaths_benManesVersions = "com.github.ben-manes:gradle-versions-plugin:${Versions.benManesVersions}"
+    ClassPaths_dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+
+    Libs_kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    Libs_androidxAnnotation = "androidx.annotation:annotation:${Versions.annotation}"
+    Libs_androidxAppCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+
+    TestLibs_kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit5:${Versions.kotlin}"
+    TestLibs_mockitoAndroid = "org.mockito:mockito-android:${Versions.mockitoAndroid}"
+    TestLibs_mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
+    TestLibs_monitor = "androidx.test:monitor:${Versions.monitor}"
+    TestLibs_runner = "androidx.test:runner:${Versions.runner}"
+    TestLibs_rules = "androidx.test:rules:${Versions.rules}"
+}

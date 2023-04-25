@@ -1,0 +1,5 @@
+apply plugin: 'org.jetbrains.dokka'
+
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(new File("$rootDir/docs"))
+}
