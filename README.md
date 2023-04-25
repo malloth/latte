@@ -18,41 +18,24 @@ Latte is a lightweight and easy to use UI testing framework for Android utilizin
 ## Requirements
 
 - Minimum Android SDK: 21
-- Compile Android SDK: 29 or later
+- Compile Android SDK: 33 or later
 
 ## Setup
 
-Gradle:
-
 ```gradle
 repositories {
-    jcenter()
+    maven {
+        url "https://maven.pkg.github.com/malloth/latte"
+    }
 }
 
 dependencies {
-    androidTestImplementation "com.test.latte:core:LATEST_VERSION"
-    androidTestImplementation "com.test.latte:extensions:LATEST_VERSION"
+    androidTestImplementation "pl.codesamurai.latte:core:{LATEST_VERSION}"
+    androidTestImplementation "pl.codesamurai.latte:extensions:{LATEST_VERSION}"
 }
 ```
 
-Maven:
-
-```xml
-<dependencies>
-    <dependency>
-        <groupId>com.test.latte</groupId>
-        <artifactId>core</artifactId>
-        <version>LATEST_VERSION</version>
-    </dependency>
-    <dependency>
-        <groupId>com.test.latte</groupId>
-        <artifactId>extensions</artifactId>
-        <version>LATEST_VERSION</version>
-    </dependency>
-</dependencies>
-```
-
-For current `LATEST_VERSION` please check GitHub's `releases` tab. 
+For current `{LATEST_VERSION}` please check GitHub's `releases` tab.
 
 ## Usage
 
@@ -126,5 +109,5 @@ showing how to write those using this framework.
 To run all the tests:
 
 ```shell
-./gradlew :sample:connectedAndroidTest
+./gradlew :sample:pixelCDebugAndroidTest
 ```
