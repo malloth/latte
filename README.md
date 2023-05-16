@@ -22,13 +22,21 @@ Latte is a lightweight and easy to use UI testing framework for Android utilizin
 
 ## Setup
 
+In `{root}/build.gradle` add:
+
 ```gradle
-repositories {
-    maven {
-        url "https://maven.pkg.github.com/malloth/latte"
+allprojects {
+    repositories {
+        maven {
+            url "https://maven.pkg.github.com/malloth/latte"
+        }
     }
 }
+```
 
+In `{module}/build.gradle` add:
+
+```gradle
 dependencies {
     androidTestImplementation "pl.codesamurai.latte:core:{LATEST_VERSION}"
     androidTestImplementation "pl.codesamurai.latte:extensions:{LATEST_VERSION}"

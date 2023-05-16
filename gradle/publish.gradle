@@ -1,16 +1,16 @@
 apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
 
-task sourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    archiveClassifier.convention('sources')
-    from android.sourceSets.main.java.srcDirs
-}
+android {
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
 
-task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-    archiveClassifier.set('javadoc')
-    archiveClassifier.convention('javadoc')
-    from dokkaJavadoc.outputDirectory
+        singleVariant("debug") {
+            withSourcesJar()
+        }
+    }
 }
 
 publishing {
@@ -33,8 +33,6 @@ publishing {
 
             afterEvaluate {
                 from components.release
-                artifact sourcesJar
-                artifact javadocJar
             }
         }
 
@@ -45,7 +43,6 @@ publishing {
 
             afterEvaluate {
                 from components.debug
-                artifact sourcesJar
             }
         }
     }
