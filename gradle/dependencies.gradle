@@ -1,6 +1,6 @@
 class Versions {
 
-    public final static String gradle = "8.0.0"
+    public final static String gradle = "8.0.1"
     public final static String kotlin = "1.8.20"
     public final static String benManesVersions = "0.44.0"
     public final static String dokka = "1.7.20"
@@ -11,6 +11,7 @@ class Versions {
     public final static String mockitoAndroid = "4.11.0"
     public final static String mockitoKotlin = "4.1.0"
     public final static String monitor = "1.6.1"
+    public final static String testExt = "1.1.5"
     public final static String runner = "1.5.2"
     public final static String rules = "1.5.0"
 }
@@ -28,6 +29,7 @@ ext {
     TestLibs_kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit5:${Versions.kotlin}"
     TestLibs_mockitoAndroid = "org.mockito:mockito-android:${Versions.mockitoAndroid}"
     TestLibs_mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
+    TestLibs_androidxTestExt = "androidx.test.ext:junit-ktx:${Versions.testExt}"
     TestLibs_androidxMonitor = "androidx.test:monitor:${Versions.monitor}"
     TestLibs_androidxRunner = "androidx.test:runner:${Versions.runner}"
     TestLibs_androidxRules = "androidx.test:rules:${Versions.rules}"

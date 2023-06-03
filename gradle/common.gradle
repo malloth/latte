@@ -65,4 +65,9 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        merge "META-INF/LICENSE.md"
+        merge "META-INF/LICENSE-notice.md"
+    }
 }

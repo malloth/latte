@@ -113,5 +113,6 @@ public interface User {
  * @throws IllegalStateException when actions are not performed in instrumentation thread
  */
 @WorkerThread
+@UserInteractorDsl
 public fun user(interactor: User.() -> Unit): Unit =
     interactor(UserInteractor)

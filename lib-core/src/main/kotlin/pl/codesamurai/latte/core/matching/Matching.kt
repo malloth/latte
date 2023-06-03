@@ -14,17 +14,17 @@ public interface Matching<T : View> {
      * Performs given actions on matched view(s).
      *
      * @param interactor set of interactions
-     * @return this instance of [Matching]
      */
     @UiThread
-    public fun interact(interactor: Interactor<T>): Matching<T>
+    @MatchingDsl
+    public fun interact(interactor: Interactor<T>)
 
     /**
      * Performs given assertions on matched view(s).
      *
      * @param verifier set of verifications
-     * @return this instance of [Matching]
      */
     @UiThread
-    public fun verify(verifier: Verifier<T>): Matching<T>
+    @MatchingDsl
+    public fun verify(verifier: Verifier<T>)
 }

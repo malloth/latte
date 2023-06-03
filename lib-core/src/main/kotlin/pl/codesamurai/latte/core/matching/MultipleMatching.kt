@@ -2,46 +2,37 @@ package pl.codesamurai.latte.core.matching
 
 import android.view.View
 import pl.codesamurai.latte.core.interactor.Interactor
-import pl.codesamurai.latte.core.thread.runInUiThread
-import pl.codesamurai.latte.core.util.debugId
-import pl.codesamurai.latte.core.verifier.VerificationResult
+import pl.codesamurai.latte.core.ktx.debugId
+import pl.codesamurai.latte.core.matching.thread.runInUiThread
 import pl.codesamurai.latte.core.verifier.Verifier
 
 @PublishedApi
 internal class MultipleMatching<T : View>(
     val views: List<T>,
-    private val threadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = ::runInUiThread
+    private val threadRunner: (() -> Boolean) -> Boolean = ::runInUiThread
 ) : Matching<T> {
 
-    override fun interact(interactor: Interactor<T>): Matching<T> {
+    override fun interact(interactor: Interactor<T>) {
         threadRunner {
             views.forEach(interactor)
             true
         }
-        return this
     }
 
-    override fun verify(verifier: Verifier<T>): Matching<T> {
+    override fun verify(verifier: Verifier<T>) {
         var id: String? = null
         val result = threadRunner {
-            for (view in views) {
-                val r = verifier(view)
-
-                if (r.compareTo(false) == 0) {
-                    id = view.debugId
-                    return@threadRunner r
+            views.all {
+                verifier(it).also { result ->
+                    if (!result) {
+                        id = it.debugId
+                    }
                 }
             }
-            true
         }
 
-        if (result.compareTo(false) == 0) {
-            val message = when (result) {
-                is VerificationResult -> result.failureDescription
-                else -> "View with id '${id}' did not pass verification"
-            }
-            throw AssertionError(message)
+        if (!result) {
+            throw AssertionError("View with id '${id}' did not pass verification")
         }
-        return this
     }
 }

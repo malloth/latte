@@ -12,7 +12,7 @@ import android.widget.EditText
  *
  * @param text text to be typed
  */
-public fun EditText.typeText(text: String) {
+public fun EditText.type(text: String) {
     val keyCharacterMap = load(VIRTUAL_KEYBOARD)
     val events = keyCharacterMap.getEvents(text.toCharArray())
 

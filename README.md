@@ -66,52 +66,49 @@ noMatch<View> {
 Performing actions with matched `View`:
 
 ```kotlin
-match<View> {
-    // matching view's conditions
-}.interact {
-    // actions performed on a view
+val view: (View) -> Boolean = { /* matching view's conditions */ }
+
+match(view) {
+    interact {
+        // actions performed on a view
+    }
 }
 ```
 
 Verifying `View`'s expected state:
 
 ```kotlin
-match<View> {
-    // matching view's conditions
-}.verify {
-    // assertions performed on a view
-}
-```
+val view: (View) -> Boolean = { /* matching view's conditions */ }
 
-Verifying `View`'s expected state and providing custom error message when 
-assertion fails:
-
-```kotlin
-match<View> {
-    // matching view's conditions
-}.verify {
-    someAssertion() orFail "Something has gone wrong with this view!"
+match(view) {
+    verify {
+        // assertions performed on a view
+    }
 }
 ```
 
 Sample use case matching `EditText` with an id `R.id.edit1`:
 
 ```kotlin
-match<EditText> {
-    id == R.id.edit1
-}.interact {
-    performClick()
-    inputText("123")
-}.verify {
-    isFocused
-}.verify {
-    hasText("123") orFail "EditText has text '$text' instead of '123'"
+val editText: (EditText) -> Boolean = { id == R.id.edit1 }
+
+match(editText) {
+    interact {
+        tap()
+        type("123")
+    }
+    verify {
+        isFocused
+    }
+    verify {
+        hasText("123")
+    }
 }
 ```
 
 ## Sample
 
-Inside this repository there's a sample app module with a couple of UI tests, 
+Inside this repository there's a sample app module with a couple of UI tests,
 showing how to write those using this framework.
 
 To run all the tests:

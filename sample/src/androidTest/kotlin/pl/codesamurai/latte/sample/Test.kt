@@ -1,25 +1,27 @@
-@file:Suppress("DEPRECATION")
-
 package pl.codesamurai.latte.sample
 
 import android.view.View.GONE
 import android.view.View.INVISIBLE
-import android.widget.*
-import androidx.test.rule.ActivityTestRule
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import pl.codesamurai.latte.core.matcher.match
 import pl.codesamurai.latte.core.matcher.noMatch
-import pl.codesamurai.latte.core.verifier.orFail
 import pl.codesamurai.latte.extensions.interactor.performItemClick
-import pl.codesamurai.latte.extensions.interactor.typeText
+import pl.codesamurai.latte.extensions.interactor.tap
+import pl.codesamurai.latte.extensions.interactor.type
 import pl.codesamurai.latte.extensions.interactor.user
 import pl.codesamurai.latte.extensions.verifier.hasText
 
 class Test {
 
-    private val activityRule = ActivityTestRule(MainActivity::class.java)
+    private val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @get:Rule
     val rules: RuleChain = RuleChain
@@ -27,93 +29,86 @@ class Test {
         .around(activityRule)
 
     @Test
-    fun test1() {
-        match<EditText> {
-            id == R.id.edit1
-        }.interact {
-            performClick()
-            typeText("abc123")
-        }.verify {
-            isFocused
-        }.verify {
-            hasText("123") orFail "EditText has text '$text' instead of '123'"
+    fun invalid_text_typing() {
+        val editText1: (EditText) -> Boolean = { it.id == R.id.edit1 }
+
+        match(editText1) {
+            interact {
+                tap()
+                type("abc123")
+            }
+            verify(EditText::isFocused)
+            verify {
+                hasText("123")
+            }
         }
     }
 
     @Test
-    fun test2() {
+    fun no_visible_edit_texts() {
         noMatch<EditText> {
             visibility == INVISIBLE || visibility == GONE
         }
     }
 
     @Test
-    fun test3() {
-        match<Spinner> {
-            id == R.id.spinner1
-        }.verify {
-            (selectedItemPosition == 2) orFail "Spinner has selected position $selectedItemPosition instead of 2"
-        }.interact {
-            performClick()
-        }
+    fun spinner_item_selection() {
+        val spinner1: (Spinner) -> Boolean = { it.id == R.id.spinner1 }
+        val spinnerItem5: (TextView) -> Boolean = { it.text == "Item 5" }
 
-        match<TextView> {
-            hasText("Item 5")
-        }.interact {
-            val parentView = parent as AdapterView<*>
-            parentView.performItemClick(this)
+        match(spinner1) {
+            verify {
+                selectedItemPosition == 2
+            }
+            interact {
+                tap()
+            }
         }
-
-        match<Spinner> {
-            id == R.id.spinner1
-        }.verify {
-            (selectedItemPosition == 4) orFail "Spinner has selected position $selectedItemPosition instead of 4"
+        match(spinnerItem5) {
+            interact {
+                val parentView = parent as AdapterView<*>
+                parentView.performItemClick(this)
+            }
+        }
+        match(spinner1) {
+            verify {
+                selectedItemPosition == 4
+            }
         }
     }
 
     @Test
-    fun test4() {
-        match<Button> {
-            id == R.id.button1
-        }.interact {
-            performClick()
-        }
+    fun fragment_navigation_1() {
+        val button1: (Button) -> Boolean = { it.id == R.id.button1 }
+        val label: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match<TextView> {
-            hasText(R.string.label)
+        match(button1) {
+            interact {
+                tap()
+            }
         }
-
+        match(label)
         user {
             pressBack()
         }
-
-        match<Button> {
-            id == R.id.button1
-        }
+        match(button1)
     }
 
     @Test
-    fun test5() {
-        match<Button> {
-            id == R.id.button2
-        }.interact {
-            performClick()
-        }
+    fun fragment_navigation_2() {
+        val button2: (Button) -> Boolean = { it.id == R.id.button2 }
+        val label: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match<TextView> {
-            hasText(R.string.label)
+        match(button2) {
+            interact {
+                tap()
+            }
         }
-
-        noMatch<Button> {
-            id == R.id.button2
-        }
-
+        match(label)
+        noMatch(button2)
         user {
             pressBack()
         }
-
-        match<Button> {
-            id == R.id.button2
-        }
+        match(button2)
     }
 }

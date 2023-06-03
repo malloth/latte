@@ -5,18 +5,12 @@ package pl.codesamurai.latte.core.matcher
  */
 public enum class MatchType {
 
-    /**
-     * Matches single view only.
-     */
+    /** Matches single view only. */
     SINGLE,
 
-    /**
-     * Matches only first view, ignoring other.
-     */
+    /** Matches only first view, ignoring other. */
     FIRST,
 
-    /**
-     * Matches all views.
-     */
+    /** Matches all views. */
     ALL
 }
