@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package pl.codesamurai.latte.extensions.verifier
+package pl.codesamurai.latte.core.ktx.verifier
 
 import android.content.res.Resources.Theme
 import android.widget.ImageView

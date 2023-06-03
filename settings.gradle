@@ -1,5 +1,5 @@
 rootProject.name = 'Latte'
 
 include ':lib-core'
-include ':lib-extensions'
+include ':lib-core-ktx'
 include ':sample'

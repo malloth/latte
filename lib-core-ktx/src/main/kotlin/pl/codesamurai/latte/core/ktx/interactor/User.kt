@@ -1,7 +1,8 @@
-package pl.codesamurai.latte.extensions.interactor
+package pl.codesamurai.latte.core.ktx.interactor
 
 import android.view.Surface
 import androidx.annotation.WorkerThread
+import pl.codesamurai.latte.core.matching.MatchingDsl
 
 /**
  * Interface describing basic user interactions.
@@ -113,6 +114,6 @@ public interface User {
  * @throws IllegalStateException when actions are not performed in instrumentation thread
  */
 @WorkerThread
-@UserInteractorDsl
+@MatchingDsl
 public fun user(interactor: User.() -> Unit): Unit =
     interactor(UserInteractor)

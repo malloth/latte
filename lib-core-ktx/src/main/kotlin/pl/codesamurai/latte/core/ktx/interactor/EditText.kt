@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package pl.codesamurai.latte.extensions.interactor
+package pl.codesamurai.latte.core.ktx.interactor
 
 import android.view.KeyCharacterMap.VIRTUAL_KEYBOARD
 import android.view.KeyCharacterMap.load

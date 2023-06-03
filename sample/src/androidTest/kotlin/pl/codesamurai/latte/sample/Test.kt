@@ -11,13 +11,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import pl.codesamurai.latte.core.ktx.interactor.performItemClick
+import pl.codesamurai.latte.core.ktx.interactor.tap
+import pl.codesamurai.latte.core.ktx.interactor.type
+import pl.codesamurai.latte.core.ktx.interactor.user
+import pl.codesamurai.latte.core.ktx.verifier.hasText
 import pl.codesamurai.latte.core.matcher.match
 import pl.codesamurai.latte.core.matcher.noMatch
-import pl.codesamurai.latte.extensions.interactor.performItemClick
-import pl.codesamurai.latte.extensions.interactor.tap
-import pl.codesamurai.latte.extensions.interactor.type
-import pl.codesamurai.latte.extensions.interactor.user
-import pl.codesamurai.latte.extensions.verifier.hasText
 
 class Test {
 

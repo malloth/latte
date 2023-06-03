@@ -1,4 +1,4 @@
-package pl.codesamurai.latte.extensions.interactor
+package pl.codesamurai.latte.core.ktx.interactor
 
 import android.view.View
 import android.widget.Adapter

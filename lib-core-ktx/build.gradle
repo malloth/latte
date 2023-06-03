@@ -1,6 +1,6 @@
 ext {
-    artifactId = "extensions"
-    artifactName = "Extensions"
+    artifactId = "core-ktx"
+    artifactName = "Core Ktx"
     groupId = "pl.codesamurai.latte"
 }
 
@@ -8,6 +8,8 @@ apply from: "$rootDir/gradle/common.gradle"
 apply from: "$rootDir/gradle/dependencies.gradle"
 
 dependencies {
+    implementation project(':lib-core')
+
     implementation Libs_kotlin
 
     implementation Libs_androidxAnnotation

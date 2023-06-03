@@ -75,7 +75,7 @@ dependencies {
     implementation Libs_androidxAppCompat
 
     androidTestImplementation project(':lib-core')
-    androidTestImplementation project(':lib-extensions')
+    androidTestImplementation project(':lib-core-ktx')
 
     androidTestImplementation TestLibs_androidxTestExt
     androidTestImplementation TestLibs_androidxRules

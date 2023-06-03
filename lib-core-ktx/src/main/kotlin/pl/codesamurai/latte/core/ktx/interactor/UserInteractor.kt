@@ -1,4 +1,4 @@
-package pl.codesamurai.latte.extensions.interactor
+package pl.codesamurai.latte.core.ktx.interactor
 
 import android.os.SystemClock.sleep
 import android.os.SystemClock.uptimeMillis

@@ -39,7 +39,7 @@ In `{module}/build.gradle` add:
 ```gradle
 dependencies {
     androidTestImplementation "pl.codesamurai.latte:core:{LATEST_VERSION}"
-    androidTestImplementation "pl.codesamurai.latte:extensions:{LATEST_VERSION}"
+    androidTestImplementation "pl.codesamurai.latte:core-ktx:{LATEST_VERSION}"
 }
 ```
 
