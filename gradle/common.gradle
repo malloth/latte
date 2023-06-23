@@ -29,7 +29,7 @@ android {
         sourceSet.java.srcDirs += "src/${sourceSet.name}/kotlin"
     }
 
-    lintOptions {
+    lint {
         abortOnError true
         warningsAsErrors true
         textReport false
@@ -67,7 +67,8 @@ android {
     }
 
     packagingOptions {
-        merge "META-INF/LICENSE.md"
-        merge "META-INF/LICENSE-notice.md"
+        resources {
+            merges += ['META-INF/LICENSE.md', 'META-INF/LICENSE-notice.md']
+        }
     }
 }

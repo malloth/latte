@@ -34,14 +34,6 @@ android {
         sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
     }
 
-    lintOptions {
-        abortOnError true
-        warningsAsErrors true
-        textReport false
-        htmlReport false
-        xmlOutput file("$rootDir/build/reports/lint/${project.name}.xml")
-        lintConfig file('lint.xml')
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -66,6 +58,14 @@ android {
                 }
             }
         }
+    }
+    lint {
+        abortOnError true
+        htmlReport false
+        lintConfig file('lint.xml')
+        textReport false
+        warningsAsErrors true
+        xmlOutput file("$rootDir/build/reports/lint/${project.name}.xml")
     }
 }
 
