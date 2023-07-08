@@ -12,7 +12,7 @@ import kotlin.test.assertFailsWith
 internal class MultipleMatchingTest {
 
     private val viewMocks: List<TextView> = listOf(mock(), mock(), mock())
-    private val currentThreadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = { it() }
+    private val currentThreadRunner: (() -> Boolean) -> Boolean = { it() }
 
     private val tested = MultipleMatching(viewMocks, currentThreadRunner)
 

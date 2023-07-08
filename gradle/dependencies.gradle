@@ -1,15 +1,15 @@
 class Versions {
 
     public final static String gradle = "8.0.2"
-    public final static String kotlin = "1.8.20"
-    public final static String benManesVersions = "0.44.0"
-    public final static String dokka = "1.7.20"
+    public final static String kotlin = "1.9.0"
+    public final static String benManesVersions = "0.47.0"
+    public final static String dokka = "1.8.20"
 
-    public final static String androidxAnnotation = "1.5.0"
-    public final static String androidxAppCompat = "1.6.0"
+    public final static String androidxAnnotation = "1.6.0"
+    public final static String androidxAppCompat = "1.6.1"
 
-    public final static String mockitoAndroid = "4.11.0"
-    public final static String mockitoKotlin = "4.1.0"
+    public final static String mockitoAndroid = "5.4.0"
+    public final static String mockitoKotlin = "5.0.0"
     public final static String androidxMonitor = "1.6.1"
     public final static String androidxTestExt = "1.1.5"
     public final static String androidxRunner = "1.5.2"

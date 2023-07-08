@@ -22,8 +22,6 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 internal object UserInteractor : User {
 
-    private const val DEFAULT_MULTI_PRESS_TIMEOUT = 300
-
     private val uiAutomation = getInstrumentation().uiAutomation
 
     override fun pressPower() {
@@ -83,22 +81,19 @@ internal object UserInteractor : User {
     }
 
     private fun sendKeyEventSync(keyCode: Int) {
+        val now = uptimeMillis()
+        val duration = getPressedStateDuration()
+
         with(uiAutomation) {
-            val startTime = uptimeMillis()
-            val pressDuration = getPressedStateDuration()
-            val multiPressDuration = DEFAULT_MULTI_PRESS_TIMEOUT
-
-            if (injectInputEvent(downKeyEvent(keyCode, startTime), true)) {
-                sleep(pressDuration.toLong())
-
-                if (injectInputEvent(upKeyEvent(keyCode, startTime), true))
-                    sleep(multiPressDuration.toLong())
+            if (injectInputEvent(downKeyEvent(keyCode, now), true)) {
+                sleep(duration.toLong())
+                injectInputEvent(upKeyEvent(keyCode, now), true)
             }
         }
     }
 
     private fun downKeyEvent(keyCode: Int, downTime: Long) =
-        KeyEvent(downTime, uptimeMillis(), ACTION_DOWN, keyCode, 0)
+        KeyEvent(downTime, downTime, ACTION_DOWN, keyCode, 0)
 
     private fun upKeyEvent(keyCode: Int, downTime: Long) =
         KeyEvent(downTime, uptimeMillis(), ACTION_UP, keyCode, 0)

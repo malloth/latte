@@ -11,7 +11,7 @@ import kotlin.test.assertFailsWith
 internal class SingleMatchingTest {
 
     private val viewMock = mock<TextView>()
-    private val currentThreadRunner: (() -> Comparable<Boolean>) -> Comparable<Boolean> = { it() }
+    private val currentThreadRunner: (() -> Boolean) -> Boolean = { it() }
 
     private val tested = SingleMatching(viewMock, currentThreadRunner)
 

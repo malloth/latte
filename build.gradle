@@ -2,6 +2,7 @@ buildscript {
     apply from: "$rootDir/gradle/dependencies.gradle"
 
     repositories {
+        mavenCentral()
         google()
         gradlePluginPortal()
     }
@@ -24,6 +25,7 @@ allprojects {
     }
 
     repositories {
+        mavenCentral()
         google()
         gradlePluginPortal()
         maven {

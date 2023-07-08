@@ -3,6 +3,7 @@ package pl.codesamurai.latte.core.matching
 import android.view.View
 import pl.codesamurai.latte.core.interactor.Interactor
 import pl.codesamurai.latte.core.ktx.debugId
+import pl.codesamurai.latte.core.ktx.dropStackTraces
 import pl.codesamurai.latte.core.matching.thread.runInUiThread
 import pl.codesamurai.latte.core.verifier.Verifier
 
@@ -33,6 +34,7 @@ internal class MultipleMatching<T : View>(
 
         if (!result) {
             throw AssertionError("View with id '${id}' did not pass verification")
+                .dropStackTraces(1)
         }
     }
 }
