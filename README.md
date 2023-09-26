@@ -18,7 +18,7 @@ Latte is a lightweight and easy to use UI testing framework for Android utilizin
 ## Requirements
 
 - Minimum Android SDK: 21
-- Compile Android SDK: 33 or later
+- Compile Android SDK: 34 or later
 
 ## Setup
 

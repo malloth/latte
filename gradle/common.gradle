@@ -3,11 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "$groupId.$artifactId".replace('-', '_')
-    compileSdkVersion Integer.parseInt(COMPILE_SDK)
-
-    buildFeatures {
-        buildConfig true
-    }
+    compileSdk Integer.parseInt(COMPILE_SDK)
 
     defaultConfig {
         minSdkVersion Integer.parseInt(MIN_SDK)
@@ -25,8 +21,8 @@ android {
         }
     }
 
-    sourceSets.all { sourceSet ->
-        sourceSet.java.srcDirs += "src/${sourceSet.name}/kotlin"
+    sourceSets.configureEach {
+        it.java.srcDirs += "src/${it.name}/kotlin"
     }
 
     lint {

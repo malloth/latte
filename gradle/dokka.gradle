@@ -1,13 +1,15 @@
 apply plugin: 'org.jetbrains.dokka'
 
 dokkaHtmlPartial {
-    moduleName.set(project.artifactName)
+    moduleName = project.artifactName
     dokkaSourceSets {
         configureEach {
-            noStdlibLink.set(true)
-            noJdkLink.set(true)
-            noAndroidSdkLink.set(true)
-            includes.from("MODULE.md")
+            noStdlibLink true
+            noJdkLink true
+            noAndroidSdkLink true
+            includes {
+                from("MODULE.md")
+            }
         }
     }
 }

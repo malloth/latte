@@ -7,6 +7,12 @@ ext {
 apply from: "$rootDir/gradle/common.gradle"
 apply from: "$rootDir/gradle/dependencies.gradle"
 
+android {
+    buildFeatures {
+        buildConfig true
+    }
+}
+
 dependencies {
     implementation Libs_kotlin
 

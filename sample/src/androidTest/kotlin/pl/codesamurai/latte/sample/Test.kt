@@ -24,15 +24,13 @@ class Test {
     private val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @get:Rule
-    val rules: RuleChain = RuleChain
-        .emptyRuleChain()
-        .around(activityRule)
+    val rules: RuleChain = RuleChain.outerRule(activityRule)
 
     @Test
     fun invalid_text_typing() {
-        val editText1: (EditText) -> Boolean = { it.id == R.id.edit1 }
+        val inputSelector: (EditText) -> Boolean = { it.id == R.id.edit1 }
 
-        match(editText1) {
+        match(inputSelector) {
             interact {
                 tap()
                 type("abc123")
@@ -53,10 +51,10 @@ class Test {
 
     @Test
     fun spinner_item_selection() {
-        val spinner1: (Spinner) -> Boolean = { it.id == R.id.spinner1 }
-        val spinnerItem5: (TextView) -> Boolean = { it.text == "Item 5" }
+        val spinnerSelector: (Spinner) -> Boolean = { it.id == R.id.spinner1 }
+        val spinnerItemSelector: (TextView) -> Boolean = { it.text == "Item 5" }
 
-        match(spinner1) {
+        match(spinnerSelector) {
             verify {
                 selectedItemPosition == 2
             }
@@ -64,13 +62,13 @@ class Test {
                 tap()
             }
         }
-        match(spinnerItem5) {
+        match(spinnerItemSelector) {
             interact {
                 val parentView = parent as AdapterView<*>
                 parentView.performItemClick(this)
             }
         }
-        match(spinner1) {
+        match(spinnerSelector) {
             verify {
                 selectedItemPosition == 4
             }
@@ -79,36 +77,36 @@ class Test {
 
     @Test
     fun fragment_navigation_1() {
-        val button1: (Button) -> Boolean = { it.id == R.id.button1 }
-        val label: (TextView) -> Boolean = { it.hasText(R.string.label) }
+        val buttonSelector: (Button) -> Boolean = { it.id == R.id.button1 }
+        val labelSelector: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match(button1) {
+        match(buttonSelector) {
             interact {
                 tap()
             }
         }
-        match(label)
+        match(labelSelector)
         user {
             pressBack()
         }
-        match(button1)
+        match(buttonSelector)
     }
 
     @Test
     fun fragment_navigation_2() {
-        val button2: (Button) -> Boolean = { it.id == R.id.button2 }
-        val label: (TextView) -> Boolean = { it.hasText(R.string.label) }
+        val buttonSelector: (Button) -> Boolean = { it.id == R.id.button2 }
+        val labelSelector: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match(button2) {
+        match(buttonSelector) {
             interact {
                 tap()
             }
         }
-        match(label)
-        noMatch(button2)
+        match(labelSelector)
+        noMatch(buttonSelector)
         user {
             pressBack()
         }
-        match(button2)
+        match(buttonSelector)
     }
 }

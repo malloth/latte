@@ -7,7 +7,7 @@ apply from: "$rootDir/gradle/dependencies.gradle"
 
 android {
     namespace "pl.codesamurai.latte.sample"
-    compileSdkVersion Integer.parseInt(COMPILE_SDK)
+    compileSdk Integer.parseInt(COMPILE_SDK)
 
     buildFeatures {
         viewBinding true
@@ -30,10 +30,9 @@ android {
         }
     }
 
-    sourceSets.all { sourceSet ->
-        sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
+    sourceSets.configureEach {
+        it.java.srcDirs += "src/${it.name}/kotlin"
     }
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
