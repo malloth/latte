@@ -5,4 +5,15 @@ package pl.codesamurai.latte.core.matcher
  *
  * @param message the detail message
  */
-public class MatchException(message: String) : RuntimeException(message)
+public sealed class MatchException(message: String) : RuntimeException(message) {
+
+    public class NoMatchFoundException(message: String) : MatchException(message)
+
+    public class MatchFoundException(message: String) : MatchException(message)
+
+    public class MultipleMatchesFoundException(message: String) : MatchException(message)
+
+    init {
+        stackTrace = stackTrace.drop(1).toTypedArray()
+    }
+}

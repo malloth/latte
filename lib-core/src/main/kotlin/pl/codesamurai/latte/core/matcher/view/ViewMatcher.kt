@@ -2,10 +2,10 @@ package pl.codesamurai.latte.core.matcher.view
 
 import android.view.View
 import pl.codesamurai.latte.core.ktx.filterIf
-import pl.codesamurai.latte.core.ktx.hasFlags
 import pl.codesamurai.latte.core.ktx.mapIf
-import pl.codesamurai.latte.core.matcher.MATCH_ACTIVE_ROOTS
-import pl.codesamurai.latte.core.matcher.MATCH_CONTENT
+import pl.codesamurai.latte.core.matcher.MatchFlag
+import pl.codesamurai.latte.core.matcher.MatchFlag.MATCH_ACTIVE_ROOTS
+import pl.codesamurai.latte.core.matcher.MatchFlag.MATCH_CONTENT
 import pl.codesamurai.latte.core.matcher.MatchPredicate
 import pl.codesamurai.latte.core.matcher.view.hierarchy.DepthFirstViewTreeWalk
 import pl.codesamurai.latte.core.matcher.view.hierarchy.RootProvider
@@ -18,7 +18,7 @@ internal typealias ViewMatcher = (View) -> Boolean
 
 @PublishedApi
 internal inline fun <reified T : View> matchViews(
-    matchFlags: Int,
+    matchFlags: Set<MatchFlag>,
     noinline matchPredicate: MatchPredicate<T>,
     viewMatcherFactory: (MatchPredicate<T>) -> ViewMatcher = ViewMatcherFactory::create,
     viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk,
@@ -33,12 +33,25 @@ internal inline fun <reified T : View> matchViews(
         return emptyList()
     }
 
-    val matchActiveRoots = matchFlags.hasFlags(MATCH_ACTIVE_ROOTS)
-    val matchContent = matchFlags.hasFlags(MATCH_CONTENT)
+    val matchActiveRoots = matchFlags.contains(MATCH_ACTIVE_ROOTS)
+    val matchContent = matchFlags.contains(MATCH_CONTENT)
     val viewMatcher = viewMatcherFactory(matchPredicate)
 
     return roots.filterIf(matchActiveRoots) { it.isActive }
         .mapIf(matchContent) { it.content ?: it }
         .flatMap { viewTreeWalk.walk(it.view, viewMatcher) }
+        .filterIsInstance<T>()
+}
+
+@PublishedApi
+internal inline fun <reified T : View> matchChildViews(
+    parentView: View,
+    noinline matchPredicate: MatchPredicate<T>,
+    viewMatcherFactory: (MatchPredicate<T>) -> ViewMatcher = ViewMatcherFactory::create,
+    viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk
+): List<T> {
+    val viewMatcher = viewMatcherFactory(matchPredicate)
+
+    return viewTreeWalk.walk(parentView, viewMatcher)
         .filterIsInstance<T>()
 }

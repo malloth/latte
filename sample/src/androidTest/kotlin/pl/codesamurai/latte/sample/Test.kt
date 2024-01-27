@@ -1,12 +1,11 @@
 package pl.codesamurai.latte.sample
 
-import android.view.View.GONE
-import android.view.View.INVISIBLE
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
@@ -18,6 +17,7 @@ import pl.codesamurai.latte.core.ktx.interactor.user
 import pl.codesamurai.latte.core.ktx.verifier.hasText
 import pl.codesamurai.latte.core.matcher.match
 import pl.codesamurai.latte.core.matcher.noMatch
+import pl.codesamurai.latte.core.verifier.verify
 
 class Test {
 
@@ -28,85 +28,89 @@ class Test {
 
     @Test
     fun invalid_text_typing() {
-        val inputSelector: (EditText) -> Boolean = { it.id == R.id.edit1 }
+        // given
+        val editTextWithId: (EditText) -> Boolean = { it.id == R.id.edit1 }
 
-        match(inputSelector) {
-            interact {
-                tap()
-                type("abc123")
-            }
-            verify(EditText::isFocused)
-            verify {
-                hasText("123")
-            }
+        // when
+        val matching = match(editTextWithId) {
+            tap()
+            type("abc123")
+        }
+
+        // then
+        matching.verify {
+            isFocused && hasText("123")
         }
     }
 
     @Test
-    fun no_visible_edit_texts() {
-        noMatch<EditText> {
-            visibility == INVISIBLE || visibility == GONE
-        }
+    fun no_invisible_nor_gone_edit_texts() {
+        // given
+        val visibleEditText: (EditText) -> Boolean = { !it.isVisible }
+
+        // then
+        noMatch(visibleEditText)
     }
 
     @Test
     fun spinner_item_selection() {
-        val spinnerSelector: (Spinner) -> Boolean = { it.id == R.id.spinner1 }
-        val spinnerItemSelector: (TextView) -> Boolean = { it.text == "Item 5" }
+        // given
+        val spinnerWithId: (Spinner) -> Boolean = { it.id == R.id.spinner1 }
+        val spinnerItemWithText: (TextView) -> Boolean = { it.text == "Item 5" }
 
-        match(spinnerSelector) {
+        // when
+        val matching = match(spinnerWithId) {
             verify {
                 selectedItemPosition == 2
             }
-            interact {
-                tap()
-            }
+            tap()
         }
-        match(spinnerItemSelector) {
-            interact {
-                val parentView = parent as AdapterView<*>
-                parentView.performItemClick(this)
-            }
+        match(spinnerItemWithText) {
+            (parent as AdapterView<*>).performItemClick(this)
         }
-        match(spinnerSelector) {
-            verify {
-                selectedItemPosition == 4
-            }
+
+        // then
+        matching.verify {
+            selectedItemPosition == 4
         }
     }
 
     @Test
     fun fragment_navigation_1() {
-        val buttonSelector: (Button) -> Boolean = { it.id == R.id.button1 }
-        val labelSelector: (TextView) -> Boolean = { it.hasText(R.string.label) }
+        // given
+        val buttonWithId: (Button) -> Boolean = { it.id == R.id.button1 }
+        val labelWithText: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match(buttonSelector) {
-            interact {
-                tap()
-            }
+        // when
+        match(buttonWithId) {
+            tap()
         }
-        match(labelSelector)
+        match(labelWithText)
         user {
             pressBack()
         }
-        match(buttonSelector)
+
+        // then
+        match(buttonWithId)
     }
 
     @Test
     fun fragment_navigation_2() {
-        val buttonSelector: (Button) -> Boolean = { it.id == R.id.button2 }
-        val labelSelector: (TextView) -> Boolean = { it.hasText(R.string.label) }
+        // given
+        val buttonWithId: (Button) -> Boolean = { it.id == R.id.button2 }
+        val labelWithText: (TextView) -> Boolean = { it.hasText(R.string.label) }
 
-        match(buttonSelector) {
-            interact {
-                tap()
-            }
+        // when
+        match(buttonWithId) {
+            tap()
         }
-        match(labelSelector)
-        noMatch(buttonSelector)
+        match(labelWithText)
+        noMatch(buttonWithId)
         user {
             pressBack()
         }
-        match(buttonSelector)
+
+        // then
+        match(buttonWithId)
     }
 }

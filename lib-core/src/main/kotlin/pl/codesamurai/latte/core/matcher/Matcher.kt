@@ -2,12 +2,18 @@ package pl.codesamurai.latte.core.matcher
 
 import android.view.View
 import androidx.annotation.WorkerThread
+import pl.codesamurai.latte.core.interactor.invoke
+import pl.codesamurai.latte.core.matcher.MatchException.MatchFoundException
+import pl.codesamurai.latte.core.matcher.MatchException.MultipleMatchesFoundException
+import pl.codesamurai.latte.core.matcher.MatchException.NoMatchFoundException
+import pl.codesamurai.latte.core.matcher.MatchFlag.Companion.MATCH_DEFAULT
+import pl.codesamurai.latte.core.matcher.MatchType.ALL
+import pl.codesamurai.latte.core.matcher.MatchType.FIRST
 import pl.codesamurai.latte.core.matcher.MatchType.SINGLE
+import pl.codesamurai.latte.core.matcher.view.matchChildViews
 import pl.codesamurai.latte.core.matcher.view.matchViews
 import pl.codesamurai.latte.core.matching.Matching
 import pl.codesamurai.latte.core.matching.MatchingDsl
-import pl.codesamurai.latte.core.matching.provider.matchingFor
-import pl.codesamurai.latte.core.matching.provider.noMatchingFor
 
 /**
  * Matches view of a specified type using given [matchPredicate].
@@ -21,7 +27,8 @@ import pl.codesamurai.latte.core.matching.provider.noMatchingFor
  * @param matchPredicate predicate describing which view should be considered a match
  * @param matchType view matching strategy
  * @param matchFlags flags for matching control
- * @param block action to apply on [Matching] containing matched view(s)
+ * @param block action to apply on matched view(s)
+ * @return matching views
  * @throws MatchException if no matching view was found, or
  * multiple matches were found and [matchType] was set to [MatchType.SINGLE]
  */
@@ -30,14 +37,60 @@ import pl.codesamurai.latte.core.matching.provider.noMatchingFor
 public inline fun <reified T : View> match(
     noinline matchPredicate: MatchPredicate<T>,
     matchType: MatchType = SINGLE,
-    matchFlags: Int = MATCH_DEFAULT,
-    block: Matching<T>.() -> Unit = {}
-): Unit = block(
-    matchingFor(
-        matchViews(matchFlags, matchPredicate),
-        matchType
-    )
-)
+    matchFlags: Set<MatchFlag> = MATCH_DEFAULT,
+    noinline block: T.() -> Unit = {}
+): Matching<T> {
+    val matches = matchViews(matchFlags, matchPredicate)
+    val matching = when (matches.size) {
+        0 -> throw NoMatchFoundException("No views found matching given criteria")
+        1 -> matches
+        else -> when (matchType) {
+            SINGLE -> throw MultipleMatchesFoundException("Found ${matches.size} views matching given criteria")
+            FIRST -> listOf(matches.first())
+            ALL -> matches
+        }
+    }.let(::Matching)
+
+    matching(block)
+
+    return matching
+}
+
+/**
+ * Matches child view of a specified type using given [matchPredicate].
+ *
+ * Only a single match is expected. To change this, assign
+ * matching strategy through modification of [matchType] argument.
+ *
+ * @param matchPredicate predicate describing which view should be considered a match
+ * @param matchType view matching strategy
+ * @param block action to apply on matched view(s)
+ * @return matching views
+ * @throws MatchException if no matching view was found, or
+ * multiple matches were found and [matchType] was set to [MatchType.SINGLE]
+ */
+@WorkerThread
+@MatchingDsl
+public inline fun <reified T : View> View.matchChild(
+    noinline matchPredicate: MatchPredicate<T>,
+    matchType: MatchType = SINGLE,
+    noinline block: T.() -> Unit = {}
+): Matching<T> {
+    val matches = matchChildViews(this, matchPredicate)
+    val matching = when (matches.size) {
+        0 -> throw NoMatchFoundException("No child views found matching given criteria")
+        1 -> matches
+        else -> when (matchType) {
+            SINGLE -> throw MultipleMatchesFoundException("Found ${matches.size} child views matching given criteria")
+            FIRST -> listOf(matches.first())
+            ALL -> matches
+        }
+    }.let(::Matching)
+
+    matching(block)
+
+    return matching
+}
 
 /**
  * Ensures that no matching view of a specified type exists in the
@@ -46,43 +99,38 @@ public inline fun <reified T : View> match(
  * By default match lookup is performed only in active window content.
  * To change this behaviour one of [matchFlags] can be passed.
  *
- * @param matchFlags flags for matching control
  * @param matchPredicate predicate describing which view should be considered a match
+ * @param matchFlags flags for matching control
  * @throws MatchException if any matching view was found
  */
 @WorkerThread
 @MatchingDsl
 public inline fun <reified T : View> noMatch(
-    matchFlags: Int = MATCH_DEFAULT,
-    noinline matchPredicate: MatchPredicate<T>
-): Unit = noMatchingFor(matchViews(matchFlags, matchPredicate))
+    noinline matchPredicate: MatchPredicate<T>,
+    matchFlags: Set<MatchFlag> = MATCH_DEFAULT
+) {
+    val matches = matchViews(matchFlags, matchPredicate)
+
+    if (matches.isNotEmpty()) {
+        throw MatchFoundException("Found ${matches.size} views matching given criteria")
+    }
+}
 
 /**
- * Ensures that no matching view of a specified type exists in the
+ * Ensures that no matching child view of a specified type exists in the
  * view hierarchy using given [matchPredicate].
  *
- * Lookup is performed only in active window content.
- *
  * @param matchPredicate predicate describing which view should be considered a match
  * @throws MatchException if any matching view was found
  */
 @WorkerThread
 @MatchingDsl
-public inline fun <reified T : View> noMatch(
+public inline fun <reified T : View> View.noChildMatch(
     noinline matchPredicate: MatchPredicate<T>
-): Unit = noMatchingFor(matchViews(MATCH_DEFAULT, matchPredicate))
+) {
+    val matches = matchChildViews(this, matchPredicate)
 
-/**
- * Flag for matching views only inside active windows (activities, dialogs, popups).
- */
-public const val MATCH_ACTIVE_ROOTS: Int = 0b00000001
-
-/**
- * Flag for matching views inside content view.
- */
-public const val MATCH_CONTENT: Int = 0b00000010
-
-/**
- * Flag specifying default matching behaviour.
- */
-public const val MATCH_DEFAULT: Int = MATCH_CONTENT or MATCH_ACTIVE_ROOTS
+    if (matches.isNotEmpty()) {
+        throw MatchFoundException("Found ${matches.size} child views matching given criteria")
+    }
+}

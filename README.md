@@ -50,59 +50,73 @@ For current `{LATEST_VERSION}` please check GitHub's `releases` tab.
 Matching `View` of a specific type:
 
 ```kotlin
-match<View> {
-    // matching view's conditions
-}
+val viewMatcher: (View) -> Boolean = { /* matching view's conditions */ }
+
+match(viewMatcher)
 ```
 
-Ensuring that no matching `View` exists in the view hierarchy:
+Ensuring that no matching `View`s exists in the view hierarchy:
 
 ```kotlin
-noMatch<View> {
-    // matching view's conditions
-}
+val viewMatcher: (View) -> Boolean = { /* matching view's conditions */ }
+
+noMatch(viewMatcher)
 ```
 
 Performing actions with matched `View`:
 
 ```kotlin
-val view: (View) -> Boolean = { /* matching view's conditions */ }
+val viewMatcher: (View) -> Boolean = { /* matching view's conditions */ }
 
-match(view) {
-    interact {
-        // actions performed on a view
-    }
+match(viewMatcher) {
+    // actions performed on a view(s)
 }
 ```
 
 Verifying `View`'s expected state:
 
 ```kotlin
-val view: (View) -> Boolean = { /* matching view's conditions */ }
+val viewMatcher: (View) -> Boolean = { /* matching view's conditions */ }
 
-match(view) {
+match(viewMatcher) {
     verify {
-        // assertions performed on a view
+        // assertion(s) performed on a view(s)
     }
+}
+```
+
+or
+
+```kotlin
+// GIVEN
+val viewMatcher: (View) -> Boolean = { /* matching view's conditions */ }
+
+// WHEN
+val matching = match(viewMatcher) {
+    // actions performed on a view(s)
+}
+
+// THEN
+matching.verify {
+    // assertion(s) performed on a view(s)
 }
 ```
 
 Sample use case matching `EditText` with an id `R.id.edit1`:
 
 ```kotlin
-val editText: (EditText) -> Boolean = { id == R.id.edit1 }
+// GIVEN
+val editTextWithId: (EditText) -> Boolean = { id == R.id.edit1 }
 
-match(editText) {
-    interact {
-        tap()
-        type("123")
-    }
-    verify {
-        isFocused
-    }
-    verify {
-        hasText("123")
-    }
+// WHEN
+val matching = match(editTextWithId) {
+    tap()
+    type("123")
+}
+
+// THEN
+matching.verify {
+    isFocused && hasText("123")
 }
 ```
 
