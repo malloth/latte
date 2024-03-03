@@ -10,10 +10,10 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import pl.codesamurai.latte.core.ktx.interactor.device
 import pl.codesamurai.latte.core.ktx.interactor.performItemClick
 import pl.codesamurai.latte.core.ktx.interactor.tap
 import pl.codesamurai.latte.core.ktx.interactor.type
-import pl.codesamurai.latte.core.ktx.interactor.user
 import pl.codesamurai.latte.core.ktx.verifier.hasText
 import pl.codesamurai.latte.core.matcher.match
 import pl.codesamurai.latte.core.matcher.noMatch
@@ -86,7 +86,7 @@ class Test {
             tap()
         }
         match(labelWithText)
-        user {
+        device {
             pressBack()
         }
 
@@ -106,7 +106,7 @@ class Test {
         }
         match(labelWithText)
         noMatch(buttonWithId)
-        user {
+        device {
             pressBack()
         }
 

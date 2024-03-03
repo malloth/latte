@@ -49,7 +49,7 @@ android {
 
         managedDevices {
             devices {
-                pixelC(ManagedVirtualDevice) {
+                pixel2(ManagedVirtualDevice) {
                     device = "Pixel 2"
                     apiLevel = 30
                     systemImageSource = "aosp-atd"

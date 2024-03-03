@@ -20,7 +20,7 @@ import android.view.KeyEvent.KEYCODE_VOLUME_UP
 import android.view.ViewConfiguration.getPressedStateDuration
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
-internal object UserInteractor : User {
+internal object DeviceInteractor : Device {
 
     private val uiAutomation = getInstrumentation().uiAutomation
 

@@ -2,8 +2,8 @@ buildscript {
     apply from: "$rootDir/gradle/dependencies.gradle"
 
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         gradlePluginPortal()
     }
 
@@ -25,8 +25,8 @@ allprojects {
     }
 
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         gradlePluginPortal()
         maven {
             url "https://maven.pkg.github.com/malloth/latte"

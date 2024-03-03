@@ -1,4 +1,4 @@
-package pl.codesamurai.latte.core.matching.thread.checker
+package pl.codesamurai.latte.core.thread.idle_checker
 
 @PublishedApi
 internal interface IdleChecker {

@@ -13,7 +13,7 @@ import pl.codesamurai.latte.core.matcher.MatchPredicate
 import pl.codesamurai.latte.core.matcher.view.hierarchy.Root
 import pl.codesamurai.latte.core.matcher.view.hierarchy.RootProvider
 import pl.codesamurai.latte.core.matcher.view.hierarchy.ViewTreeWalk
-import pl.codesamurai.latte.core.matching.thread.checker.IdleChecker
+import pl.codesamurai.latte.core.thread.idle_checker.IdleChecker
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

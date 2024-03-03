@@ -3,7 +3,7 @@ package pl.codesamurai.latte.core.ktx
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class CollectionsTest {
+internal class ListTest {
 
     @Test
     fun `filters items when condition is met`() {

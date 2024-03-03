@@ -1,4 +1,4 @@
-package pl.codesamurai.latte.core.matching.thread
+package pl.codesamurai.latte.core.thread
 
 import android.os.Looper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation

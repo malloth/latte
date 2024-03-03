@@ -7,7 +7,7 @@ import pl.codesamurai.latte.core.matching.MatchingDsl
 /**
  * Interface describing basic user interactions.
  */
-public interface User {
+public interface Device {
 
     /**
      * Emulates user pressing power button.
@@ -110,10 +110,10 @@ public interface User {
 /**
  * Performs given actions as a device user.
  *
- * @param interactor set of interactions
+ * @param interactions set of interactions
  * @throws IllegalStateException when actions are not performed in instrumentation thread
  */
 @WorkerThread
 @MatchingDsl
-public fun user(interactor: User.() -> Unit): Unit =
-    interactor(UserInteractor)
+public fun device(interactions: Device.() -> Unit): Unit =
+    interactions(DeviceInteractor)

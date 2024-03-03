@@ -128,5 +128,5 @@ showing how to write those using this framework.
 To run all the tests:
 
 ```shell
-./gradlew :sample:pixelCDebugAndroidTest
+./gradlew :sample:pixel2DebugAndroidTest
 ```

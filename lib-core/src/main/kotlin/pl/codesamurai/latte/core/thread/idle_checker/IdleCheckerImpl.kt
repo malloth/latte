@@ -1,9 +1,9 @@
-package pl.codesamurai.latte.core.matching.thread.checker
+package pl.codesamurai.latte.core.thread.idle_checker
 
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 @PublishedApi
-internal object MainThreadIdleChecker : IdleChecker {
+internal object IdleCheckerImpl : IdleChecker {
 
     private val instrumentation = getInstrumentation()
 

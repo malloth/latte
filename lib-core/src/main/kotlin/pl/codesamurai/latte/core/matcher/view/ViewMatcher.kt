@@ -11,8 +11,8 @@ import pl.codesamurai.latte.core.matcher.view.hierarchy.DepthFirstViewTreeWalk
 import pl.codesamurai.latte.core.matcher.view.hierarchy.RootProvider
 import pl.codesamurai.latte.core.matcher.view.hierarchy.ViewTreeWalk
 import pl.codesamurai.latte.core.matcher.view.hierarchy.WindowRootProvider
-import pl.codesamurai.latte.core.matching.thread.checker.IdleChecker
-import pl.codesamurai.latte.core.matching.thread.checker.MainThreadIdleChecker
+import pl.codesamurai.latte.core.thread.idle_checker.IdleChecker
+import pl.codesamurai.latte.core.thread.idle_checker.IdleCheckerImpl
 
 internal typealias ViewMatcher = (View) -> Boolean
 
@@ -22,7 +22,7 @@ internal inline fun <reified T : View> matchViews(
     noinline matchPredicate: MatchPredicate<T>,
     viewMatcherFactory: (MatchPredicate<T>) -> ViewMatcher = ViewMatcherFactory::create,
     viewTreeWalk: ViewTreeWalk = DepthFirstViewTreeWalk,
-    idleChecker: IdleChecker = MainThreadIdleChecker,
+    idleChecker: IdleChecker = IdleCheckerImpl,
     rootProvider: RootProvider = WindowRootProvider
 ): List<T> {
     idleChecker.waitUntilIdle()
